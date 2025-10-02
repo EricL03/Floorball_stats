@@ -1,3 +1,7 @@
 from django.shortcuts import render
 
-# Create your views here.
+def games_list(request):
+    return render(request, "games/list.html")
+
+def game_detail(request, pk):
+    return render(request, "games/detail.html", {"pk": pk})
