@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Innebandy Stats</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
+    <nav>
+      <a href="{% url 'games:list' %}">Games</a> |
+      <a href="{% url 'players:list' %}">Players</a> |
+      <a href="{% url 'stats:leaderboard' %}">Leaderboard</a>
+    </nav>
+    <hr />
+    {% block content %}{% endblock %}
+  </body>
+</html>
