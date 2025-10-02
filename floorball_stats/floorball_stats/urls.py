@@ -16,9 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+    # Root page
+    path('', TemplateView.as_view(template_name="dashboard.html"), name="dashboard"),
 
     # App URLs
     path("players/", include("players.urls")),
