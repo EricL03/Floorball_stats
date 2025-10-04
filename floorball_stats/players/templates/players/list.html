@@ -1,4 +1,27 @@
 {% extends "base.html" %} {% block content %}
 <h2>Players</h2>
-<p>Player list will go here.</p>
+
+<a href="{% url 'players:add' %}">Add Player</a>
+
+<ul>
+  {% for player in players %}
+  <li>
+    <!-- prettier-ignore -->
+    #{% if player.jersey_number %}
+    <!-- prettier-ignore -->
+    {{player.jersey_number}}
+    <!-- prettier-ignore -->
+    {% else %}
+    <!-- prettier-ignore -->
+    -
+    <!-- prettier-ignore -->
+    {% endif %}
+    {{ player.name }},
+    <!-- prettier-ignore -->
+    {{ player.position|default:"N/A" }}
+  </li>
+  {% empty %}
+  <li>No players yet.</li>
+  {% endfor %}
+</ul>
 {% endblock %}

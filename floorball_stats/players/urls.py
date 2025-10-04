@@ -5,4 +5,5 @@ app_name = "players"
 
 urlpatterns = [
     path('', views.player_list, name='list'),
+    path("add/", views.player_add, name="add"),
 ]
