@@ -1,4 +1,36 @@
 {% extends "base.html" %} {% block content %}
-<h2>Games</h2>
-<p>Games list will go here.</p>
+<h1>Games</h1>
+<a href="{% url 'games:add' %}" class="btn btn-primary mb-3">Add Game</a>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Opponent</th>
+      <th>Score</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for game in games %}
+    <tr>
+      <td>{{ game.date }}</td>
+      <td>{{ game.opponent }}</td>
+      <td>{{ game.our_score }} - {{ game.opponent_score }}</td>
+      <td>
+        <a href="{% url 'games:detail' game.id %}" class="btn btn-sm btn-info"
+          >View/Edit</a
+        >
+        <a href="{% url 'games:delete' game.id %}" class="btn btn-sm btn-danger"
+          >Delete</a
+        >
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4">No games recorded yet.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

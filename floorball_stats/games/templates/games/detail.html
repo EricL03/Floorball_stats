@@ -1,4 +1,36 @@
 {% extends "base.html" %} {% block content %}
-<h2>Game Detail (ID {{ pk }})</h2>
-<p>Game details and stats will go here.</p>
+<h1>Edit Game vs {{ game.opponent }} ({{ game.date }})</h1>
+
+<form method="POST">
+  {% csrf_token %}
+  <h3>Game Info</h3>
+  {{ form.as_p }}
+
+  <h3>Player Statistics</h3>
+  {{ formset.management_form }}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Player</th>
+        <th>Goals</th>
+        <th>Assists</th>
+        <th>Penalties</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for form in formset %}
+      <tr>
+        <td>{{ form.player }}</td>
+        <td>{{ form.goals }}</td>
+        <td>{{ form.assists }}</td>
+        <td>{{ form.penalties }}</td>
+        <td>{{ form.DELETE }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <button type="submit" class="btn btn-success">Save Changes</button>
+</form>
 {% endblock %}
