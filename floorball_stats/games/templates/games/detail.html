@@ -21,6 +21,7 @@
     <tbody>
       {% for form in formset %}
       <tr>
+        {{ form.id }}
         <td>{{ form.player }}</td>
         <td>{{ form.goals }}</td>
         <td>{{ form.assists }}</td>

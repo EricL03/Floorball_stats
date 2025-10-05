@@ -25,10 +25,14 @@ def game_detail(request, pk):
     if request.method == 'POST':
         form = GameForm(request.POST, instance=game)
         formset = PlayerGameStatsFormSet(request.POST, instance=game)
+
         if form.is_valid() and formset.is_valid():
             form.save()
             formset.save()
             return redirect('games:list')
+        else: 
+            print("Form errors:", form.errors)
+            print("Formset errors:", formset.errors)
     else:
         form = GameForm(instance=game)
         formset = PlayerGameStatsFormSet(instance=game)
