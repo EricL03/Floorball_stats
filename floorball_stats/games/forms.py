@@ -12,7 +12,7 @@ class GameForm(forms.ModelForm):
 PlayerGameStatsFormSet = forms.inlineformset_factory(
     Game,
     PlayerGameStats,
-    fields=['player', 'goals', 'assists', 'penalties'],
+    fields=['player', 'goals', 'assists', 'penalties', 'plus_minus'],
     extra=1,
     can_delete=True
 )

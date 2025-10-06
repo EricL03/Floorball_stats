@@ -9,6 +9,7 @@ class PlayerGameStats(models.Model):
     goals = models.PositiveIntegerField(default=0)
     assists = models.PositiveIntegerField(default=0)
     penalties = models.PositiveIntegerField(default=0)
+    plus_minus = models.IntegerField(default=0)
 
     class Meta:
         unique_together = ('player', 'game')  # Prevent duplicate entries
