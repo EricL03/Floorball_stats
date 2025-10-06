@@ -4,7 +4,11 @@
 
   <form method="POST" class="game-form">
     {% csrf_token %} {{ formset.management_form }}
-    <section class="section-card">
+    <section
+      class="section-card collapsible"
+      data-section="matchinfo"
+      data-default-collapsed="{% if not from_add_view %}true{% else %}false{% endif %}"
+    >
       <h2>Matchinformation</h2>
       <div class="form-grid">
         {% for field in form %}
@@ -24,7 +28,7 @@
       </div>
     </section>
 
-    <section class="section-card">
+    <section class="section-card collapsible" data-section="matchsummary">
       <h2>Matchsammanställning</h2>
       <div class="game-summary">
         <!-- Teams -->
@@ -106,7 +110,7 @@
       </div>
     </section>
 
-    <section class="section-card">
+    <section class="section-card collapsible" data-section="playerstats">
       <h2>Spelarstatistik</h2>
       {{ formset.management_form }}
       <div class="table-scroll">
@@ -138,7 +142,7 @@
                 </button>
               </th>
               <th>
-                Utvisningar<button
+                Utvisningsm.<button
                   type="button"
                   class="sort-btn"
                   data-column="penalties"
@@ -222,6 +226,24 @@
 
         // append sorted rows back to tbody
         rows.forEach((row) => tbody.appendChild(row));
+      });
+    });
+  });
+
+  // For collapsible sections
+  document.addEventListener("DOMContentLoaded", () => {
+    const sections = document.querySelectorAll(".section-card.collapsible");
+
+    sections.forEach((section) => {
+      const header = section.querySelector("h2");
+      const defaultCollapsed = section.dataset.defaultCollapsed === "true";
+
+      if (defaultCollapsed) {
+        section.classList.add("collapsed");
+      }
+
+      header.addEventListener("click", () => {
+        section.classList.toggle("collapsed");
       });
     });
   });

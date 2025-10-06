@@ -66,7 +66,7 @@ class Game(models.Model):
         if self.boxplays == 0: 
             return 0
 
-        return self.boxplay_goals / self.boxplays
+        return self.boxplay_goals_against / self.boxplays
     
     def __str__(self):
         return f"{self.date} vs {self.opponent}"
