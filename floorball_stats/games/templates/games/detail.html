@@ -1,39 +1,229 @@
-{% extends "base.html" %} {% block content %}
-<h1>Edit Game vs {{ game.opponent }} ({{ game.date }})</h1>
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="game-detail-container">
+  <h1 class="page-title">Redigera match mot {{ game.opponent }}</h1>
 
-<form method="POST">
-  {% csrf_token %}
-  <h3>Game Info</h3>
-  {{ form.as_p }}
+  <form method="POST" class="game-form">
+    {% csrf_token %} {{ formset.management_form }}
+    <section class="section-card">
+      <h2>Matchinformation</h2>
+      <div class="form-grid">
+        {% for field in form %}
+        <div class="form-field">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {% if field.name == "date" %}
+          <input
+            type="date"
+            name="{{ field.name }}"
+            id="{{ field.id_for_label }}"
+            value="{{ field.value|default:today|date:'Y-m-d' }}"
+            required
+          />
+          {% else %} {{ field }} {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </section>
 
-  <h3>Player Statistics</h3>
-  {{ formset.management_form }}
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Player</th>
-        <th>Goals</th>
-        <th>Assists</th>
-        <th>Penalties</th>
-        <th>Plus Minus</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for form in formset %}
-      <tr>
-        {{ form.id }}
-        <td>{{ form.player }}</td>
-        <td>{{ form.goals }}</td>
-        <td>{{ form.assists }}</td>
-        <td>{{ form.penalties }}</td>
-        <td>{{ form.plus_minus}}</td>
-        <td>{{ form.DELETE }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    <section class="section-card">
+      <h2>Matchsammanställning</h2>
+      <div class="game-summary">
+        <!-- Teams -->
+        <div class="summary-block">
+          <div class="summary-main">Söderköpings IBK - {{ game.opponent }}</div>
+        </div>
 
-  <button type="submit" class="btn btn-success">Save Changes</button>
-</form>
+        <!-- Score -->
+        <div class="summary-block">
+          <div class="summary-main">
+            {{ form.our_score.value }} - {{ form.opponent_score.value }}
+          </div>
+          <div class="summary-sub">
+            <!-- prettier-ignore -->
+            (P1: {{ form.our_score_p1.value }}-{{ form.opponent_score_p1.value }}, P2: {{ form.our_score_p2.value }}-{{ form.opponent_score_p2.value }}, P3: {{ form.our_score_p3.value }}-{{ form.opponent_score_p3.value }})
+          </div>
+        </div>
+
+        <!-- Shots -->
+        <div class="summary-block">
+          <div class="summary-title">Skott</div>
+          <div class="summary-main">
+            {{ form.our_shots.value }} - {{ form.opponent_shots.value }}
+          </div>
+          <div class="summary-sub">
+            <!-- prettier-ignore -->
+            (P1: {{ form.our_shots_p1.value }}-{{ form.opponent_shots_p1.value }}, P2: {{ form.our_shots_p2.value }}-{{ form.opponent_shots_p2.value }}, P3: {{ form.our_shots_p3.value }}-{{ form.opponent_shots_p3.value }})
+          </div>
+        </div>
+
+        <!-- Other metrics -->
+        <div class="summary-metrics">
+          <!-- Shotpercentages -->
+          <div class="metric-box">
+            <label>Skottprocent</label>
+            {{ game.shot_percentage }}
+          </div>
+          <div class="metric-box">
+            <label>Räddningsprocent</label>
+            {{ game.save_percentage }}
+          </div>
+          <div class="metric-box">
+            <label>Skottprocent / Räddningsprocent</label>
+            {{ game.shot_save_percentage }}
+          </div>
+        </div>
+
+        <div class="summary-metrics">
+          <!-- Powerplays -->
+          <div class="metric-box">
+            <label>Antal Powerplay</label>
+            {{ game.powerplays }}
+          </div>
+          <div class="metric-box">
+            <label>Mål i Powerplay</label>
+            {{ game.powerplay_goals }}
+          </div>
+          <div class="metric-box">
+            <label>Mål % Powerplay</label>
+            {{ game.powerplay_percentage }}
+          </div>
+        </div>
+
+        <div class="summary-metrics">
+          <!-- Boxplays -->
+          <div class="metric-box">
+            <label>Antal Boxplay</label>
+            {{ game.boxplays }}
+          </div>
+          <div class="metric-box">
+            <label>Insläppta mål i Boxplay</label>
+            {{ game.boxplay_goals_against }}
+          </div>
+          <div class="metric-box">
+            <label>% i Boxplay</label>
+            {{ game.boxplay_percentage }}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <h2>Spelarstatistik</h2>
+      {{ formset.management_form }}
+      <div class="table-scroll">
+        <table class="styled-table" id="player-stats-table">
+          <thead>
+            <tr>
+              <th class="player-cell">Spelare</th>
+              <th>
+                Mål<button type="button" class="sort-btn" data-column="goals">
+                  ⇅
+                </button>
+              </th>
+              <th>
+                Assist<button
+                  type="button"
+                  class="sort-btn"
+                  data-column="assists"
+                >
+                  ⇅
+                </button>
+              </th>
+              <th>
+                Poäng<button
+                  type="button"
+                  class="sort-btn"
+                  data-column="points"
+                >
+                  ⇅
+                </button>
+              </th>
+              <th>
+                Utvisningar<button
+                  type="button"
+                  class="sort-btn"
+                  data-column="penalties"
+                >
+                  ⇅
+                </button>
+              </th>
+              <th>
+                Plus/Minus<button
+                  type="button"
+                  class="sort-btn"
+                  data-column="plus_minus"
+                >
+                  ⇅
+                </button>
+              </th>
+              <th>Ta bort</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for form in formset %}
+            <tr class="form-row">
+              {{ form.id }}
+              <td class="player-cell">{{ form.player }}</td>
+              <td>{{ form.goals }}</td>
+              <td>{{ form.assists }}</td>
+              <td>{{ form.points }}</td>
+              <td>{{ form.penalties }}</td>
+              <td>{{ form.plus_minus }}</td>
+              <td class="delete-cell">{{ form.DELETE }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-save">Spara ändringar</button>
+      <a href="{% url 'games:list' %}" class="btn btn-cancel">Avbryt</a>
+    </div>
+  </form>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const table = document.getElementById("player-stats-table");
+    const tbody = table.querySelector("tbody");
+
+    const getCellValue = (row, columnName) => {
+      const cell = row.querySelector(`[name$="-` + columnName + `"]`);
+      if (!cell) return 0;
+      // For input/select elements, get value
+      if (cell.tagName === "INPUT" || cell.tagName === "SELECT") {
+        return cell.value || 0;
+      }
+      return cell.textContent || 0;
+    };
+
+    const compare = (a, b, columnName, asc) => {
+      let valA = getCellValue(a, columnName);
+      let valB = getCellValue(b, columnName);
+
+      // convert to numbers if possible
+      valA = isNaN(valA) ? valA : parseFloat(valA);
+      valB = isNaN(valB) ? valB : parseFloat(valB);
+
+      if (valA < valB) return asc ? -1 : 1;
+      if (valA > valB) return asc ? 1 : -1;
+      return 0;
+    };
+
+    document.querySelectorAll(".sort-btn").forEach((btn) => {
+      let asc = true; // toggle ascending/descending
+      btn.addEventListener("click", () => {
+        const column = btn.dataset.column;
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+
+        rows.sort((a, b) => compare(a, b, column, asc));
+        asc = !asc; // toggle next click
+
+        // append sorted rows back to tbody
+        rows.forEach((row) => tbody.appendChild(row));
+      });
+    });
+  });
+</script>
 {% endblock %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Game
 from .forms import GameForm, PlayerGameStatsFormSet
+from datetime import date
 
 
 def games_list(request):
@@ -9,6 +10,7 @@ def games_list(request):
 
 
 def game_add(request):
+    today = date.today()
     if request.method == 'POST':
         form = GameForm(request.POST)
         if form.is_valid():
@@ -17,14 +19,15 @@ def game_add(request):
     else:
         form = GameForm()
 
-    return render(request, 'games/detail.html', {'form': form, 'formset': None, 'game': None})
+    return render(request, 'games/detail.html', {'form': form, 'formset': None, 'game': None, 'today': today})
 
 
 def game_detail(request, pk):
     game = get_object_or_404(Game, pk=pk)
+    today = date.today()
     if request.method == 'POST':
         form = GameForm(request.POST, instance=game)
-        formset = PlayerGameStatsFormSet(request.POST, instance=game)
+        formset = PlayerGameStatsFormSet(request.POST, instance=game, form_kwargs={'game': game})
 
         if form.is_valid() and formset.is_valid():
             form.save()
@@ -35,13 +38,13 @@ def game_detail(request, pk):
             print("Formset errors:", formset.errors)
     else:
         form = GameForm(instance=game)
-        formset = PlayerGameStatsFormSet(instance=game)
+        formset = PlayerGameStatsFormSet(instance=game, form_kwargs={'game': game})
 
-    return render(request, 'games/detail.html', {'form': form, 'formset': formset, 'game': game})
+    return render(request, 'games/detail.html', {'form': form, 'formset': formset, 'game': game, 'today': today})
 
 
 def game_delete(request, pk): 
-    game = get_object_or_404(Game, pk=pk)
+    game = get_object_or_404(Game, pk=pk) 
     if game:
         game.delete()
     

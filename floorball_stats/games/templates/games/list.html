@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block content %}
 <h1>Games</h1>
-<a href="{% url 'games:add' %}" class="btn btn-primary mb-3">Add Game</a>
+<a href="{% url 'games:add' %}">Add Game</a>
 
 <table class="table">
   <thead>
@@ -18,12 +18,8 @@
       <td>{{ game.opponent }}</td>
       <td>{{ game.our_score }} - {{ game.opponent_score }}</td>
       <td>
-        <a href="{% url 'games:detail' game.id %}" class="btn btn-sm btn-info"
-          >View/Edit</a
-        >
-        <a href="{% url 'games:delete' game.id %}" class="btn btn-sm btn-danger"
-          >Delete</a
-        >
+        <a href="{% url 'games:detail' game.id %}">View/Edit</a>
+        <a href="{% url 'games:delete' game.id %}">Delete</a>
       </td>
     </tr>
     {% empty %}

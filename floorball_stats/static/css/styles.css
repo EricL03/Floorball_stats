@@ -1,0 +1,304 @@
+body {
+  background-color: #f7f9fb;
+  font-family: "Inter", "Helvetica Neue", sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.page-title {
+  text-align: center;
+  margin-top: 1rem;
+  color: #2c3e50;
+}
+
+.game-detail-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.section-card {
+  margin-bottom: 2rem;
+}
+
+.section-card h2 {
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.5rem;
+  color: #2c3e50;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  margin-top: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+/* Make scroll smooth and pretty */
+.table-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+.table-scroll::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+.table-scroll::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+/* --- Table layout --- */
+.styled-table {
+  border-collapse: collapse;
+  table-layout: auto; /* allows different column widths */
+  width: max-content; /* lets the table expand horizontally */
+  min-width: 100%; /* but at least full container width */
+}
+
+/* --- Table cells --- */
+.styled-table th,
+.styled-table td {
+  padding: 0.5rem 0.8rem;
+  text-align: center;
+  white-space: nowrap;
+  border-bottom: 1px solid #eee;
+}
+
+.styled-table th {
+  background-color: #f3f6fa;
+  font-weight: 600;
+}
+
+/* --- Input fields --- */
+.styled-table input[type="number"],
+.styled-table select {
+  width: 60px; /* smaller, consistent size for stat fields */
+  text-align: center;
+  padding: 0.3rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+/* --- Player name column --- */
+.player-cell {
+  position: sticky;
+  left: 0;
+  background: #fff;
+  z-index: 5; /* higher than other cells */
+  min-width: 180px;
+  max-width: 220px;
+  text-align: left;
+  border-right: 1px solid #ddd;
+}
+
+/* Make sure the header stays above scrolling cells */
+.styled-table thead .player-cell {
+  top: 0;
+  background: #f3f6fa;
+  z-index: 6;
+}
+
+/* Expand the player select/dropdown to fill the cell */
+.player-cell select,
+.player-cell input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.4rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+
+/* --- Keep first column (player name) fixed during scroll --- */
+.styled-table th:first-child,
+.styled-table td:first-child {
+  position: sticky;
+  left: 0;
+  background: #fff;
+  z-index: 3; /* must be higher than other cells */
+  border-right: 1px solid #ddd;
+}
+
+/* Optional: ensure header stays above data cells when scrolling */
+.styled-table thead th {
+  position: sticky;
+  top: 0;
+  background: #f3f6fa;
+  z-index: 4;
+}
+
+.delete-cell {
+  text-align: center;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn {
+  border: none;
+  border-radius: 6px;
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: #fff;
+}
+
+.btn-save {
+  background-color: #2ecc71;
+}
+
+.btn-cancel {
+  background-color: #e74c3c;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* Style for the sort buttons in the table headers */
+.styled-table th .sort-btn {
+    margin-left: 6px;       /* space between the text and button */
+    padding: 2px 5px;       /* small padding inside the button */
+    font-size: 0.8rem;      /* slightly smaller button text */
+    cursor: pointer;        /* indicate clickable */
+    background-color: #f3f6fa;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.styled-table th .sort-btn:hover {
+    background-color: #e1e5eb;  /* subtle hover effect */
+}
+
+/* Game summary container */
+.game-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Each block (Score, Shots, etc.) */
+.summary-block {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    text-align: center;
+}
+
+/* Main text like the big score number or "Söderköpings IBK - Opponent" */
+.summary-main {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0.3rem 0;
+}
+
+/* Per-period stats */
+.summary-sub {
+    font-size: 1rem;        /* larger for readability */
+    color: #555;
+    font-weight: 600;
+}
+
+/* Section titles like "Skott" */
+.summary-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.3rem;
+}
+
+/* Metrics rows (Powerplay, Boxplay, etc.) */
+.summary-metrics {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Individual metric boxes */
+.metric-box {
+    flex: 1;
+    min-width: 100px;       /* keeps boxes separate */
+    background: #e9ecef;
+    border-radius: 8px;
+    padding: 0.8rem;
+    text-align: center;
+    font-size: 1.1rem;      /* larger text */
+    font-weight: 600;
+}
+
+.metric-box label {
+    display: block;
+    font-size: 0.85rem;     /* larger than before */
+    margin-bottom: 0.3rem;
+    color: #333;
+}
+
+.metric-box input {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 0.4rem;
+    text-align: center;
+    font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+  .styled-table th {
+    font-size: 0.85rem;
+  }
+
+  .styled-table input[type="number"],
+  .styled-table select {
+    width: 45px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 250px;
+  }
+
+  .player-cell {
+    min-width: 240px;
+  }
+}
