@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <div class="game-detail-container">
-  <h1 class="page-title">Redigera match mot {{ game.opponent }}</h1>
+  <h1 class="page-title">Match mot {{ game.opponent }}</h1>
 
   <form method="POST" class="game-form">
     {% csrf_token %} {{ formset.management_form }}
@@ -188,64 +188,52 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  window.addEventListener("load", function () {
     const table = document.getElementById("player-stats-table");
+    if (!table) return;
+
     const tbody = table.querySelector("tbody");
 
     const getCellValue = (row, columnName) => {
-      const cell = row.querySelector(`[name$="-` + columnName + `"]`);
+      const cell = row.querySelector(`[name$="-${columnName}"]`);
       if (!cell) return 0;
-      // For input/select elements, get value
-      if (cell.tagName === "INPUT" || cell.tagName === "SELECT") {
+      if (cell.tagName === "INPUT" || cell.tagName === "SELECT")
         return cell.value || 0;
-      }
       return cell.textContent || 0;
     };
 
     const compare = (a, b, columnName, asc) => {
       let valA = getCellValue(a, columnName);
       let valB = getCellValue(b, columnName);
-
-      // convert to numbers if possible
       valA = isNaN(valA) ? valA : parseFloat(valA);
       valB = isNaN(valB) ? valB : parseFloat(valB);
-
       if (valA < valB) return asc ? -1 : 1;
       if (valA > valB) return asc ? 1 : -1;
       return 0;
     };
 
     document.querySelectorAll(".sort-btn").forEach((btn) => {
-      let asc = true; // toggle ascending/descending
+      let asc = true;
       btn.addEventListener("click", () => {
         const column = btn.dataset.column;
         const rows = Array.from(tbody.querySelectorAll("tr"));
-
         rows.sort((a, b) => compare(a, b, column, asc));
-        asc = !asc; // toggle next click
-
-        // append sorted rows back to tbody
+        asc = !asc;
         rows.forEach((row) => tbody.appendChild(row));
       });
     });
-  });
 
-  // For collapsible sections
-  document.addEventListener("DOMContentLoaded", () => {
-    const sections = document.querySelectorAll(".section-card.collapsible");
-
-    sections.forEach((section) => {
-      const header = section.querySelector("h2");
-      const defaultCollapsed = section.dataset.defaultCollapsed === "true";
-
-      if (defaultCollapsed) {
-        section.classList.add("collapsed");
-      }
-
-      header.addEventListener("click", () => {
-        section.classList.toggle("collapsed");
+    document
+      .querySelectorAll(".section-card.collapsible")
+      .forEach((section) => {
+        const header = section.querySelector("h2");
+        if (!header) return;
+        const defaultCollapsed = section.dataset.defaultCollapsed === "true";
+        if (defaultCollapsed) section.classList.add("collapsed");
+        header.addEventListener("click", () =>
+          section.classList.toggle("collapsed"),
+        );
       });
-    });
   });
 </script>
 {% endblock %}
