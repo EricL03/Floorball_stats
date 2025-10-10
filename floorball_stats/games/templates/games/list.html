@@ -19,7 +19,11 @@
       <td>{{ game.our_score }} - {{ game.opponent_score }}</td>
       <td>
         <a href="{% url 'games:detail' game.id %}">View/Edit</a>
-        <a href="{% url 'games:delete' game.id %}">Delete</a>
+        <a
+          href="{% url 'games:delete' game.id %}"
+          onclick="return confirm('Är du säker på att du vill ta bort den här matchen?');"
+          >Delete</a
+        >
       </td>
     </tr>
     {% empty %}
