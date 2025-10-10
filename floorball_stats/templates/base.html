@@ -7,12 +7,34 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
   </head>
   <body>
-    <nav>
-      <a href="{% url 'games:list' %}">Games</a> |
-      <a href="{% url 'players:list' %}">Players</a> |
-      <a href="{% url 'stats:leaderboard' %}">Leaderboard</a>
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <a href="{% url 'games:list' %}">Innebandy Statistik</a>
+        </div>
+        <div class="nav-links">
+          <a
+            href="{% url 'games:list' %}"
+            class="nav-link {% if '/games' in request.path %}active{% endif %}"
+          >
+            Matcher
+          </a>
+          <a
+            href="{% url 'players:list' %}"
+            class="nav-link {% if '/players' in request.path %}active{% endif %}"
+          >
+            Spelare
+          </a>
+          <a
+            href="{% url 'stats:leaderboard' %}"
+            class="nav-link {% if '/stats' in request.path %}active{% endif %}"
+          >
+            Poängliga
+          </a>
+        </div>
+      </div>
     </nav>
-    <hr />
-    {% block content %}{% endblock %}
+
+    <main>{% block content %}{% endblock %}</main>
   </body>
 </html>
