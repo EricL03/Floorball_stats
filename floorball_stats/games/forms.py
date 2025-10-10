@@ -46,6 +46,6 @@ PlayerGameStatsFormSet = forms.inlineformset_factory(
     PlayerGameStats,
     form=PlayerGameStatsForm,
     fields=['player', 'goals', 'assists', 'points', 'penalties', 'plus_minus'],
-    extra=1,
+    extra=0,
     can_delete=True
 )

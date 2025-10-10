@@ -226,6 +226,11 @@ select {
   color: #fff;
 }
 
+.btn-add {
+  margin-left: 0.7rem; 
+  background-color: #2ecc71;
+}
+
 .btn-save {
   background-color: #2ecc71;
 }

@@ -112,7 +112,6 @@
 
     <section class="section-card collapsible" data-section="playerstats">
       <h2>Spelarstatistik</h2>
-      {{ formset.management_form }}
       <div class="table-scroll">
         <table class="styled-table" id="player-stats-table">
           <thead>
@@ -177,6 +176,24 @@
             {% endfor %}
           </tbody>
         </table>
+
+        <!-- Hidden template for new player rows -->
+        <template id="empty-form-template">
+          <tr class="form-row">
+            {{ formset.empty_form.id }}
+            <td class="player-cell">{{ formset.empty_form.player }}</td>
+            <td>{{ formset.empty_form.goals }}</td>
+            <td>{{ formset.empty_form.assists }}</td>
+            <td>{{ formset.empty_form.points }}</td>
+            <td>{{ formset.empty_form.penalties }}</td>
+            <td>{{ formset.empty_form.plus_minus }}</td>
+            <td class="delete-cell">{{ formset.empty_form.DELETE }}</td>
+          </tr>
+        </template>
+
+        <button type="button" class="btn btn-add" id="add-player-btn">
+          ➕ Add Player
+        </button>
       </div>
     </section>
 
@@ -234,6 +251,35 @@
           section.classList.toggle("collapsed"),
         );
       });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector(".game-form");
+    const addButton = form.querySelector("#add-player-btn");
+    const tableBody = form.querySelector("#player-stats-table tbody");
+
+    // This is the key: select the TOTAL_FORMS inside this form
+    const totalFormsInput = form.querySelector("input[name$='TOTAL_FORMS']");
+    if (!totalFormsInput) {
+      console.error("Cannot find TOTAL_FORMS input in the form!");
+      return;
+    }
+
+    const emptyFormTemplate = form.querySelector(
+      "#empty-form-template",
+    ).innerHTML;
+
+    addButton.addEventListener("click", function () {
+      const formIndex = parseInt(totalFormsInput.value, 10);
+
+      // Replace __prefix__ with numeric index
+      const newFormHtml = emptyFormTemplate.replace(/__prefix__/g, formIndex);
+
+      tableBody.insertAdjacentHTML("beforeend", newFormHtml);
+
+      // Increment TOTAL_FORMS so Django sees new form
+      totalFormsInput.value = formIndex + 1;
+    });
   });
 </script>
 {% endblock %}
