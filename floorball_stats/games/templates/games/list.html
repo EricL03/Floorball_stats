@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% block content %} {% load l10n %}
 <div class="game-detail-container">
   <h1 class="page-title">Matcher</h1>
 
@@ -19,7 +19,9 @@
       <tbody>
         {% for game in games %}
         <tr>
-          <td>{{ game.date }}</td>
+          <td>
+            {% localize on %}{{ game.date|date:"j M Y" }}{% endlocalize %}
+          </td>
           <td>{{ game.opponent }}</td>
           <td>{{ game.our_score }} - {{ game.opponent_score }}</td>
           <td class="delete-cell">

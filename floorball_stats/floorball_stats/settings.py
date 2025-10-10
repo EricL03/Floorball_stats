@@ -131,3 +131,8 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# For displaying dates in Swedish 
+LANGUAGE_CODE = 'sv'
+USE_L10N = True
+USE_I18N = True
