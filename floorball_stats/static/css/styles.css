@@ -367,6 +367,20 @@ select {
   margin-top: 1rem;
 }
 
+.dashboard-links {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-links .btn {
+  min-width: 140px;
+  text-align: center;
+  font-weight: 600;
+}
+
 /* ---------------- NAVBAR ---------------- */
 .navbar {
   background-color: #fff;
