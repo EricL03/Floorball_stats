@@ -1,10 +1,14 @@
 {% extends "base.html" %} {% block content %}
-<h2>Add Player</h2>
+<div class="game-detail-container">
+  <h1 class="page-title">Lägg till spelare</h1>
 
-<form method="post">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit">Save</button>
-</form>
+  <form method="post" class="styled-form">
+    {% csrf_token %} {{ form.as_p }}
 
-<a href="{% url 'players:list' %}">Back to Players</a>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-save">Spara</button>
+      <a href="{% url 'players:list' %}" class="btn btn-cancel">Avbryt</a>
+    </div>
+  </form>
+</div>
 {% endblock %}

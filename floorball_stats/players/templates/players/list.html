@@ -1,27 +1,37 @@
 {% extends "base.html" %} {% block content %}
-<h2>Players</h2>
+<div class="game-detail-container">
+  <h1 class="page-title">Spelare</h1>
 
-<a href="{% url 'players:add' %}">Add Player</a>
+  <div class="form-actions" style="margin-bottom: 1.5rem">
+    <a href="{% url 'players:add' %}" class="btn btn-add">Lägg till spelare</a>
+  </div>
 
-<ul>
-  {% for player in players %}
-  <li>
-    <!-- prettier-ignore -->
-    #{% if player.jersey_number %}
-    <!-- prettier-ignore -->
-    {{player.jersey_number}}
-    <!-- prettier-ignore -->
-    {% else %}
-    <!-- prettier-ignore -->
-    -
-    <!-- prettier-ignore -->
-    {% endif %}
-    {{ player.name }},
-    <!-- prettier-ignore -->
-    {{ player.position|default:"N/A" }}
-  </li>
-  {% empty %}
-  <li>No players yet.</li>
-  {% endfor %}
-</ul>
+  {% if players %}
+  <div class="table-scroll">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Namn</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for player in players %}
+        <tr>
+          <td>
+            {% if player.jersey_number %} {{ player.jersey_number }} {% else %}
+            - {% endif %}
+          </td>
+          <td>{{ player.name }}</td>
+          <td>{{ player.position|default:"N/A" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="welcome-text">Inga spelare har lagts till ännu.</p>
+  {% endif %}
+</div>
 {% endblock %}

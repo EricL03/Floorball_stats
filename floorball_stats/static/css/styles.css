@@ -431,6 +431,30 @@ select {
   font-weight: 700;
 }
 
+/* ---------------- PLayers list ---------------- */
+/* Adjust spacing for tables in card containers */
+.table-scroll {
+  margin-top: 1rem;
+}
+
+/* Center-align the form fields inside player add/edit cards */
+.styled-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centers inputs horizontally */
+}
+
+.styled-form p {
+  width: 100%;
+  max-width: 400px; /* keeps a nice readable width */
+}
+
+.styled-form input,
+.styled-form select,
+.styled-form textarea {
+  width: 100%;
+}
+
 @media (max-width: 600px) {
   .nav-container {
     flex-direction: column;
