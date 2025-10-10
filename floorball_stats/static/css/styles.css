@@ -228,7 +228,7 @@ select {
 
 .btn-add {
   margin-left: 0.7rem; 
-  background-color: #2ecc71;
+  background-color: #3498db; /* modern blue tone */
 }
 
 .btn-save {
