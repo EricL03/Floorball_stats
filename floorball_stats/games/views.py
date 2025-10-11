@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Game
 from .forms import GameForm, PlayerGameStatsFormSet
+from stats.models import PlayerGameStats
 from datetime import date
 
 
@@ -41,6 +42,16 @@ def game_detail(request, pk):
         formset = PlayerGameStatsFormSet(instance=game, form_kwargs={'game': game})
 
     return render(request, 'games/detail.html', {'form': form, 'formset': formset, 'game': game, 'today': today})
+
+
+def game_view(request, pk):
+    game = get_object_or_404(Game, pk=pk)
+    player_stats = PlayerGameStats.objects.filter(game=game).select_related("player")
+
+    return render(request, "games/game_view.html", {
+        "game": game,
+        "player_stats": player_stats,
+    })
 
 
 def game_delete(request, pk): 

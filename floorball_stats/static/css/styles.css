@@ -243,6 +243,61 @@ select {
   opacity: 0.9;
 }
 
+.sort-btn {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  margin-left: 4px;
+  cursor: pointer;
+  color: var(--text-secondary, #555);
+  transition: color 0.2s ease;
+}
+
+.sort-btn:hover {
+  color: var(--accent-color, #0077cc);
+}
+
+.sort-btn.active {
+  color: var(--accent-color, #0077cc);
+  font-weight: bold;
+}
+
+/* Highlight active column */
+.highlighted {
+  background-color: rgba(0, 123, 255, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+/* Optional: make header text a bit bolder */
+th.highlighted {
+  font-weight: bold;
+  color: var(--accent-color, #0077cc);
+}
+
+/* Larger, more readable text */
+#player-stats-table th,
+#player-stats-table td {
+  font-size: 1.05rem;
+  padding: 0.6rem 0.8rem;
+}
+
+/* Emphasize player names */
+#player-stats-table td:first-child {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Make all numeric stat columns bold too */
+#player-stats-table td:not(:first-child) {
+  font-weight: 500;
+}
+
+/* Slightly stronger header look */
+#player-stats-table th {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
 /* Style for the sort buttons in the table headers */
 .styled-table th .sort-btn {
     margin-left: 6px;       /* space between the text and button */
