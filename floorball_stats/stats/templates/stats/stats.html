@@ -1,0 +1,95 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="game-detail-container">
+  <div class="stats-container">
+    <h1 class="page-title">Lagstatistik</h1>
+
+    <!-- TEAM STATS -->
+    <section class="section-card">
+      <h2>Lagöversikt</h2>
+      <div class="game-summary">
+        <div class="summary-block">
+          <div class="summary-title">Matcher spelade</div>
+          <div class="summary-main">{{ total_games }}</div>
+        </div>
+
+        <div class="summary-block">
+          <div class="summary-title">Mål (snitt / totalt)</div>
+          <div class="summary-main">
+            {{ avg_our_score|floatformat:1 }} / {{ total_our_score }}
+          </div>
+        </div>
+
+        <div class="summary-block">
+          <div class="summary-title">Insläppta mål (snitt / totalt)</div>
+          <div class="summary-main">
+            {{ avg_opponent_score|floatformat:1 }} / {{ total_opponent_score }}
+          </div>
+        </div>
+
+        <div class="summary-block">
+          <div class="summary-title">Skott (snitt / totalt)</div>
+          <div class="summary-main">
+            {{ avg_our_shots|floatformat:1 }} / {{ total_our_shots }}
+          </div>
+        </div>
+
+        <div class="summary-metrics">
+          <div class="metric-box">
+            <label>Skottprocent</label>
+            {{ avg_shot_percentage|floatformat:1 }}%
+          </div>
+          <div class="metric-box">
+            <label>Räddningsprocent</label>
+            {{ avg_save_percentage|floatformat:1 }}%
+          </div>
+          <div class="metric-box">
+            <label>Powerplay%</label>
+            {{ avg_powerplay_percentage|floatformat:1 }}%
+          </div>
+          <div class="metric-box">
+            <label>Boxplay%</label>
+            {{ avg_boxplay_percentage|floatformat:1 }}%
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLAYER STATS -->
+    <section class="section-card">
+      <h2>Spelarstatistik (Totalt)</h2>
+      <div class="table-scroll">
+        <table class="styled-table" id="player-stats-table">
+          <thead>
+            <tr>
+              <th class="player-cell">Spelare</th>
+              <th>Matcher</th>
+              <th>Mål</th>
+              <th>Assist</th>
+              <th>Poäng</th>
+              <th>Utvisningsm.</th>
+              <th>Plus/Minus</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for stat in player_stats %}
+            <tr>
+              <td class="player-cell">{{ stat.player__name }}</td>
+              <td>{{ stat.games_played }}</td>
+              <td>{{ stat.total_goals }}</td>
+              <td>{{ stat.total_assists }}</td>
+              <td>{{ stat.total_points }}</td>
+              <td>{{ stat.total_penalties }}</td>
+              <td>{{ stat.total_plus_minus }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="7">Inga statistikdata tillgängliga</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}
