@@ -37,15 +37,15 @@
         <!-- Shotpercentages -->
         <div class="metric-box">
           <label>Skottprocent</label>
-          {{ game.shot_percentage }}
+          {{ game.shot_percentage|floatformat:1 }}
         </div>
         <div class="metric-box">
           <label>Räddningsprocent</label>
-          {{ game.save_percentage }}
+          {{ game.save_percentage|floatformat:1 }}
         </div>
         <div class="metric-box">
           <label>Skottprocent / Räddningsprocent</label>
-          {{ game.shot_save_percentage }}
+          {{ game.shot_save_percentage|floatformat:2 }}
         </div>
       </div>
 
@@ -61,7 +61,7 @@
         </div>
         <div class="metric-box">
           <label>Mål % Powerplay</label>
-          {{ game.powerplay_percentage }}
+          {{ game.powerplay_percentage|floatformat:1 }}
         </div>
       </div>
 
@@ -77,7 +77,7 @@
         </div>
         <div class="metric-box">
           <label>% i Boxplay</label>
-          {{ game.boxplay_percentage }}
+          {{ game.boxplay_percentage|floatformat:1 }}
         </div>
       </div>
     </div>
