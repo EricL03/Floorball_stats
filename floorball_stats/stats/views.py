@@ -34,18 +34,18 @@ def stats(request):
     avg_opponent_shots_p2 = sum(g.opponent_shots_p2 for g in games) / total_games
     avg_opponent_shots_p3 = sum(g.opponent_shots_p3 for g in games) / total_games
 
-    # ---------- PROPERTY-BASED AVERAGES ----------
-    avg_shot_percentage = sum(g.shot_percentage for g in games) / total_games
-    avg_save_percentage = sum(g.save_percentage for g in games) / total_games
-    avg_shot_save_percentage = sum(g.shot_save_percentage for g in games) / total_games
-    avg_powerplay_percentage = sum(g.powerplay_percentage for g in games) / total_games
-    avg_boxplay_percentage = sum(g.boxplay_percentage for g in games) / total_games
-
     # ---------- DETAIL BOXES ----------
     total_powerplays = sum(g.powerplays for g in games)
     total_powerplay_goals = sum(g.powerplay_goals for g in games)
     total_boxplays = sum(g.boxplays for g in games)
     total_boxplay_goals_against = sum(g.boxplay_goals_against for g in games)
+
+    # ---------- PROPERTY-BASED AVERAGES ----------
+    avg_shot_percentage = sum(g.shot_percentage for g in games) / total_games
+    avg_save_percentage = sum(g.save_percentage for g in games) / total_games
+    avg_shot_save_percentage = sum(g.shot_save_percentage for g in games) / total_games
+    avg_powerplay_percentage = 100 * total_powerplay_goals / total_powerplays 
+    avg_boxplay_percentage = 100 * (1 - total_boxplay_goals_against / total_boxplays)
 
     # ---------- PLAYER STATS ----------
     player_stats_raw = PlayerGameStats.objects.select_related("player", "game")
