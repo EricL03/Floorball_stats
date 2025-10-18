@@ -1,95 +1,254 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <div class="game-detail-container">
-  <div class="stats-container">
-    <h1 class="page-title">Lagstatistik</h1>
+  <h1 class="page-title">Säsongsstatistik</h1>
 
-    <!-- TEAM STATS -->
-    <section class="section-card">
-      <h2>Lagöversikt</h2>
-      <div class="game-summary">
-        <div class="summary-block">
-          <div class="summary-title">Matcher spelade</div>
-          <div class="summary-main">{{ total_games }}</div>
+  <!-- TEAM SUMMARY -->
+  <section class="section-card collapsible" data-section="season-summary">
+    <h2>Lagstatistik (Snitt per match)</h2>
+    <div class="game-summary">
+      <!-- Teams -->
+      <div class="summary-block">
+        <div class="summary-main">Söderköpings IBK - Motståndare (snitt)</div>
+      </div>
+
+      <!-- Score -->
+      <div class="summary-block">
+        <div class="summary-main">
+          <!-- prettier-ignore -->
+          {{ avg_our_score|floatformat:1 }} - {{ avg_opponent_score|floatformat:1 }}
         </div>
-
-        <div class="summary-block">
-          <div class="summary-title">Mål (snitt / totalt)</div>
-          <div class="summary-main">
-            {{ avg_our_score|floatformat:1 }} / {{ total_our_score }}
-          </div>
-        </div>
-
-        <div class="summary-block">
-          <div class="summary-title">Insläppta mål (snitt / totalt)</div>
-          <div class="summary-main">
-            {{ avg_opponent_score|floatformat:1 }} / {{ total_opponent_score }}
-          </div>
-        </div>
-
-        <div class="summary-block">
-          <div class="summary-title">Skott (snitt / totalt)</div>
-          <div class="summary-main">
-            {{ avg_our_shots|floatformat:1 }} / {{ total_our_shots }}
-          </div>
-        </div>
-
-        <div class="summary-metrics">
-          <div class="metric-box">
-            <label>Skottprocent</label>
-            {{ avg_shot_percentage|floatformat:1 }}%
-          </div>
-          <div class="metric-box">
-            <label>Räddningsprocent</label>
-            {{ avg_save_percentage|floatformat:1 }}%
-          </div>
-          <div class="metric-box">
-            <label>Powerplay%</label>
-            {{ avg_powerplay_percentage|floatformat:1 }}%
-          </div>
-          <div class="metric-box">
-            <label>Boxplay%</label>
-            {{ avg_boxplay_percentage|floatformat:1 }}%
-          </div>
+        <div class="summary-sub">
+          <!-- prettier-ignore -->
+          (P1: {{ avg_our_score_p1|floatformat:1 }}-{{ avg_opponent_score_p1|floatformat:1 }}, P2: {{ avg_our_score_p2|floatformat:1 }}-{{ avg_opponent_score_p2|floatformat:1 }}, P3: {{ avg_our_score_p3|floatformat:1 }}-{{ avg_opponent_score_p3|floatformat:1 }})
         </div>
       </div>
-    </section>
 
-    <!-- PLAYER STATS -->
-    <section class="section-card">
-      <h2>Spelarstatistik (Totalt)</h2>
-      <div class="table-scroll">
-        <table class="styled-table" id="player-stats-table">
-          <thead>
-            <tr>
-              <th class="player-cell">Spelare</th>
-              <th>Matcher</th>
-              <th>Mål</th>
-              <th>Assist</th>
-              <th>Poäng</th>
-              <th>Utvisningsm.</th>
-              <th>Plus/Minus</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for stat in player_stats %}
-            <tr>
-              <td class="player-cell">{{ stat.player__name }}</td>
-              <td>{{ stat.games_played }}</td>
-              <td>{{ stat.total_goals }}</td>
-              <td>{{ stat.total_assists }}</td>
-              <td>{{ stat.total_points }}</td>
-              <td>{{ stat.total_penalties }}</td>
-              <td>{{ stat.total_plus_minus }}</td>
-            </tr>
-            {% empty %}
-            <tr>
-              <td colspan="7">Inga statistikdata tillgängliga</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+      <!-- Shots -->
+      <div class="summary-block">
+        <div class="summary-title">Skott</div>
+        <div class="summary-main">
+          <!-- prettier-ignore -->
+          {{ avg_our_shots|floatformat:1 }} - {{ avg_opponent_shots|floatformat:1 }}
+        </div>
+        <div class="summary-sub">
+          <!-- prettier-ignore -->
+          (P1: {{ avg_our_shots_p1|floatformat:1 }}-{{ avg_opponent_shots_p1|floatformat:1 }}, P2: {{ avg_our_shots_p2|floatformat:1 }}-{{ avg_opponent_shots_p2|floatformat:1 }}, P3: {{ avg_our_shots_p3|floatformat:1 }}-{{ avg_opponent_shots_p3|floatformat:1 }})
+        </div>
       </div>
-    </section>
-  </div>
+
+      <!-- Other metrics -->
+      <div class="summary-metrics">
+        <div class="metric-box">
+          <label>Skottprocent</label>
+          {{ avg_shot_percentage|floatformat:1 }}
+        </div>
+        <div class="metric-box">
+          <label>Räddningsprocent</label>
+          {{ avg_save_percentage|floatformat:1 }}
+        </div>
+        <div class="metric-box">
+          <label>Skottprocent / Räddningsprocent</label>
+          {{ avg_shot_save_percentage|floatformat:1 }}
+        </div>
+      </div>
+
+      <div class="summary-metrics">
+        <div class="metric-box">
+          <label>Antal Powerplay</label>
+          {{ total_powerplays }}
+        </div>
+        <div class="metric-box">
+          <label>Mål i Powerplay</label>
+          {{ total_powerplay_goals }}
+        </div>
+        <div class="metric-box">
+          <label>Mål % Powerplay</label>
+          {{ avg_powerplay_percentage|floatformat:1 }}
+        </div>
+      </div>
+
+      <div class="summary-metrics">
+        <div class="metric-box">
+          <label>Antal Boxplay</label>
+          {{ total_boxplays }}
+        </div>
+        <div class="metric-box">
+          <label>Insläppta mål i Boxplay</label>
+          {{ total_boxplay_goals_against }}
+        </div>
+        <div class="metric-box">
+          <label>% i Boxplay</label>
+          {{ avg_boxplay_percentage|floatformat:1 }}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAYER STATS -->
+  <section class="section-card">
+    <h2>Spelarstatistik (Totalt)</h2>
+    <div class="table-scroll">
+      <table class="styled-table" id="player-stats-table">
+        <thead>
+          <tr>
+            <th class="player-cell">Spelare</th>
+            <th>
+              Matcher
+              <button type="button" class="sort-btn" data-column="games">
+                ⇅
+              </button>
+            </th>
+            <th>
+              Mål
+              <button type="button" class="sort-btn" data-column="goals">
+                ⇅
+              </button>
+            </th>
+            <th>
+              Assist
+              <button type="button" class="sort-btn" data-column="assists">
+                ⇅
+              </button>
+            </th>
+            <th>
+              Poäng
+              <button type="button" class="sort-btn" data-column="points">
+                ⇅
+              </button>
+            </th>
+            <th>
+              Utvisningsm.
+              <button type="button" class="sort-btn" data-column="penalties">
+                ⇅
+              </button>
+            </th>
+            <th>
+              Plus/Minus
+              <button type="button" class="sort-btn" data-column="plus_minus">
+                ⇅
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for stat in player_stats %}
+          <tr>
+            <td class="player-cell">{{ stat.player_name }}</td>
+            <td>{{ stat.games_played }}</td>
+            <td>{{ stat.goals }}</td>
+            <td>{{ stat.assists }}</td>
+            <td>{{ stat.points }}</td>
+            <td>{{ stat.penalties }}</td>
+            <td>{{ stat.plus_minus }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="7">Inga spelaruppgifter tillgängliga</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const table = document.getElementById("player-stats-table");
+    if (!table) return;
+
+    const tbody = table.querySelector("tbody");
+    const sortButtons = document.querySelectorAll(".sort-btn");
+
+    let currentColumn = null;
+    let currentDesc = true;
+
+    function getCellValue(row, column) {
+      const cell = row.querySelector(`[data-column="${column}"]`);
+      if (cell) return parseFloat(cell.textContent) || 0;
+      const index = Array.from(row.children).findIndex(
+        (td) => td.textContent.trim() === column,
+      );
+      return parseFloat(row.children[index]?.textContent) || 0;
+    }
+
+    function compare(a, b, column, desc) {
+      const valA = getCellValue(a, column);
+      const valB = getCellValue(b, column);
+      return desc ? valB - valA : valA - valB;
+    }
+
+    function clearHighlights() {
+      table.querySelectorAll("th, td").forEach((el) => {
+        el.classList.remove("highlighted");
+      });
+    }
+
+    function highlightColumn(column) {
+      clearHighlights();
+      table
+        .querySelectorAll(`[data-column="${column}"]`)
+        .forEach((el) => el.classList.add("highlighted"));
+      const header = table
+        .querySelector(`.sort-btn[data-column="${column}"]`)
+        ?.closest("th");
+      if (header) header.classList.add("highlighted");
+    }
+
+    function sortTable(column, desc) {
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+      rows.sort((a, b) => compare(a, b, column, desc));
+      rows.forEach((row) => tbody.appendChild(row));
+      highlightColumn(column);
+      updateButtonStates(column, desc);
+    }
+
+    function updateButtonStates(activeColumn, desc) {
+      sortButtons.forEach((btn) => {
+        btn.classList.remove("active");
+        btn.textContent = "⇅";
+      });
+      const activeBtn = document.querySelector(
+        `.sort-btn[data-column="${activeColumn}"]`,
+      );
+      if (activeBtn) {
+        activeBtn.classList.add("active");
+        activeBtn.textContent = desc ? "↓" : "↑";
+      }
+    }
+
+    // Add data-column attributes to all table cells dynamically
+    const headers = table.querySelectorAll("thead th");
+    headers.forEach((th, index) => {
+      const btn = th.querySelector(".sort-btn");
+      if (!btn) return;
+      const column = btn.dataset.column;
+      tbody.querySelectorAll("tr").forEach((tr) => {
+        const cell = tr.children[index];
+        if (cell) cell.setAttribute("data-column", column);
+      });
+    });
+
+    // Attach sorting logic to buttons
+    sortButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const column = btn.dataset.column;
+
+        if (currentColumn === column) {
+          currentDesc = !currentDesc; // toggle
+        } else {
+          currentColumn = column;
+          currentDesc = true; // reset to descending
+        }
+
+        sortTable(column, currentDesc);
+      });
+    });
+
+    // Default sort by points descending
+    currentColumn = "points";
+    currentDesc = true;
+    sortTable(currentColumn, currentDesc);
+  });
+</script>
 {% endblock %}
