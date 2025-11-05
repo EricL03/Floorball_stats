@@ -7,7 +7,7 @@ GAME_ID="$1"
 OPPONENT="$2"
 OUT_DIR="game_export"
 OUT_FILE="$OUT_DIR/matchstatistik_${OPPONENT}.html"
-TEMPLATE_FILE="~/my_stuff/Floorball_stats/floorball_stats/games/templates/games/detail.html"
+TEMPLATE_FILE="$HOME/my_stuff/Floorball_stats/floorball_stats/games/templates/games/game_view.html"
 
 mkdir -p "$OUT_DIR"
 
@@ -19,8 +19,11 @@ single-file "http://127.0.0.1:8000/games/${GAME_ID}/view/" "$OUT_FILE" \
 # 2. Extract the <script> block(s) from your template
 JS_BLOCK=$(awk '/<script>/{flag=1;next}/<\/script>/{print;flag=0}flag' "$TEMPLATE_FILE")
 
-# 3. Append them at the end of the exported file
-echo "" >>"$OUT_FILE"
+# 3. Append it directly to the end of the file
+echo "<script>" >>"$OUT_FILE"
 echo "$JS_BLOCK" >>"$OUT_FILE"
 
 echo "Exported ${OUT_FILE} with JS from template re-added."
+echo "Opening ${OUT_FILE} in firefox!"
+
+firefox ${OUT_FILE}
