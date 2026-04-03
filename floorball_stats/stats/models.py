@@ -15,7 +15,7 @@ class PlayerGameStats(models.Model):
         unique_together = ("player", "game")  # Prevent duplicate entries
 
     @property
-    def points(self):
+    def points(self) -> int:
         return self.goals + self.assists
 
     def __str__(self):

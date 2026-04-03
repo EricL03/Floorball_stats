@@ -23,16 +23,39 @@ def stats(request):
     avg_opponent_score_p2 = sum(g.opponent_score_p2 for g in games) / total_games
     avg_opponent_score_p3 = sum(g.opponent_score_p3 for g in games) / total_games
 
-    avg_our_shots = sum(g.our_shots for g in games) / total_games
-    avg_opponent_shots = sum(g.opponent_shots for g in games) / total_games
+    # Find games where shots where added as a stat
+    game_with_shots = []
+    total_games_with_shots = 0
+    for game in games:
+        if game.our_shots != 0:
+            game_with_shots.append(game)
+            total_games_with_shots += 1
 
-    avg_our_shots_p1 = sum(g.our_shots_p1 for g in games) / total_games
-    avg_our_shots_p2 = sum(g.our_shots_p2 for g in games) / total_games
-    avg_our_shots_p3 = sum(g.our_shots_p3 for g in games) / total_games
+    # Only sum from games where there are registered shot statistics
+    avg_our_shots = sum(g.our_shots for g in game_with_shots) / total_games_with_shots
+    avg_opponent_shots = (
+        sum(g.opponent_shots for g in game_with_shots) / total_games_with_shots
+    )
 
-    avg_opponent_shots_p1 = sum(g.opponent_shots_p1 for g in games) / total_games
-    avg_opponent_shots_p2 = sum(g.opponent_shots_p2 for g in games) / total_games
-    avg_opponent_shots_p3 = sum(g.opponent_shots_p3 for g in games) / total_games
+    avg_our_shots_p1 = (
+        sum(g.our_shots_p1 for g in game_with_shots) / total_games_with_shots
+    )
+    avg_our_shots_p2 = (
+        sum(g.our_shots_p2 for g in game_with_shots) / total_games_with_shots
+    )
+    avg_our_shots_p3 = (
+        sum(g.our_shots_p3 for g in game_with_shots) / total_games_with_shots
+    )
+
+    avg_opponent_shots_p1 = (
+        sum(g.opponent_shots_p1 for g in game_with_shots) / total_games_with_shots
+    )
+    avg_opponent_shots_p2 = (
+        sum(g.opponent_shots_p2 for g in game_with_shots) / total_games_with_shots
+    )
+    avg_opponent_shots_p3 = (
+        sum(g.opponent_shots_p3 for g in game_with_shots) / total_games_with_shots
+    )
 
     # ---------- DETAIL BOXES ----------
     total_powerplays = sum(g.powerplays for g in games)
@@ -41,9 +64,15 @@ def stats(request):
     total_boxplay_goals_against = sum(g.boxplay_goals_against for g in games)
 
     # ---------- PROPERTY-BASED AVERAGES ----------
-    avg_shot_percentage = sum(g.shot_percentage for g in games) / total_games
-    avg_save_percentage = sum(g.save_percentage for g in games) / total_games
-    avg_shot_save_percentage = sum(g.shot_save_percentage for g in games) / total_games
+    avg_shot_percentage = (
+        sum(g.shot_percentage for g in game_with_shots) / total_games_with_shots
+    )
+    avg_save_percentage = (
+        sum(g.save_percentage for g in game_with_shots) / total_games_with_shots
+    )
+    avg_shot_save_percentage = (
+        sum(g.shot_save_percentage for g in game_with_shots) / total_games_with_shots
+    )
     avg_powerplay_percentage = 100 * total_powerplay_goals / total_powerplays
     avg_boxplay_percentage = 100 * (1 - total_boxplay_goals_against / total_boxplays)
 
