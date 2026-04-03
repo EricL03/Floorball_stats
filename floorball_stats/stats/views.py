@@ -157,32 +157,51 @@ def stats(request):
 def advanced_stats(request):
     games = Game.objects.all().order_by("date")
 
-    rolling_goals = []
-    rolling_shots = []
     game_labels = []
+    game_details = []
+
+    our_rolling_goals = []
+    our_rolling_goals_p1 = []
+    our_rolling_goals_p2 = []
+    our_rolling_goals_p3 = []
+
+    our_rolling_shots = []
 
     WINDOW = 5
 
     for i in range(len(games)):
         window = games[max(0, i - WINDOW + 1) : i + 1]
 
-        avg_goals = sum(g.our_score for g in window) / len(window)
+        our_avg_goals = sum(g.our_score for g in window) / len(window)
+        our_avg_p1 = sum(g.our_score_p1 for g in window) / len(window)
+        our_avg_p2 = sum(g.our_score_p2 for g in window) / len(window)
+        our_avg_p3 = sum(g.our_score_p3 for g in window) / len(window)
 
         shots_games = [g for g in window if g.our_shots and g.our_shots > 0]
-        avg_shots = (
+        our_avg_shots = (
             sum(g.our_shots for g in shots_games) / len(shots_games)
             if shots_games
             else 0
         )
 
-        rolling_goals.append(round(avg_goals, 2))
-        rolling_shots.append(round(avg_shots, 2))
         game_labels.append(f"Match {i+1}")
+        game_details.append(f"Match {i+1} \n{games[i].opponent}")
+
+        our_rolling_goals.append(round(our_avg_goals, 2))
+        our_rolling_goals_p1.append(round(our_avg_p1, 2))
+        our_rolling_goals_p2.append(round(our_avg_p2, 2))
+        our_rolling_goals_p3.append(round(our_avg_p3, 2))
+
+        our_rolling_shots.append(round(our_avg_shots, 2))
 
     context = {
-        "rolling_goals": rolling_goals,
-        "rolling_shots": rolling_shots,
         "game_labels": game_labels,
+        "game_details": game_details,
+        "our_rolling_goals": our_rolling_goals,
+        "our_rolling_goals_p1": our_rolling_goals_p1,
+        "our_rolling_goals_p2": our_rolling_goals_p2,
+        "our_rolling_goals_p3": our_rolling_goals_p3,
+        "our_rolling_shots": our_rolling_shots,
     }
 
     return render(request, "stats/advanced_stats.html", context)
