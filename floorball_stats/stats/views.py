@@ -152,3 +152,37 @@ def stats(request):
     }
 
     return render(request, "stats/stats.html", context)
+
+
+def advanced_stats(request):
+    games = Game.objects.all().order_by("date")
+
+    rolling_goals = []
+    rolling_shots = []
+    game_labels = []
+
+    WINDOW = 5
+
+    for i in range(len(games)):
+        window = games[max(0, i - WINDOW + 1) : i + 1]
+
+        avg_goals = sum(g.our_score for g in window) / len(window)
+
+        shots_games = [g for g in window if g.our_shots and g.our_shots > 0]
+        avg_shots = (
+            sum(g.our_shots for g in shots_games) / len(shots_games)
+            if shots_games
+            else 0
+        )
+
+        rolling_goals.append(round(avg_goals, 2))
+        rolling_shots.append(round(avg_shots, 2))
+        game_labels.append(f"Match {i+1}")
+
+    context = {
+        "rolling_goals": rolling_goals,
+        "rolling_shots": rolling_shots,
+        "game_labels": game_labels,
+    }
+
+    return render(request, "stats/advanced_stats.html", context)

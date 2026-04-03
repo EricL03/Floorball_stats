@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <div class="charts-grid">
+    <div class="chart-card">
+      <canvas id="goalsChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <canvas id="shotsChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <canvas id="saveChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <canvas id="ppChart"></canvas>
+    </div>
+  </div>
+  <div id="chartModal" class="modal">
+    <canvas id="modalChart"></canvas>
+  </div>
+  <script>
+  const modal = document.getElementById("chartModal");
+  const modalCtx = document.getElementById("modalChart");
+
+  let modalChartInstance = null;
+
+  // Store chart configs so we can reuse them
+  const chartConfigs = {
+    goalsChart: {
+      type: "line",
+      data: {
+        labels: {{ game_labels|safe }},
+        datasets: [{
+          label: "Mål",
+          data: {{ rolling_goals|safe }},
+        }]
+      }
+    },
+    shotsChart: {
+      type: "line",
+      data: {
+        labels: {{ game_labels|safe }},
+        datasets: [{
+          label: "Skott",
+          data: {{ rolling_shots|safe }},
+        }]
+      }
+    }
+  };
+
+  // Attach click to each chart card
+  document.querySelectorAll(".chart-card").forEach(card => {
+    card.addEventListener("click", () => {
+      const canvas = card.querySelector("canvas");
+      const id = canvas.id;
+
+      modal.style.display = "block";
+
+      // Destroy previous chart
+      if (modalChartInstance) {
+        modalChartInstance.destroy();
+      }
+
+      // Create new fullscreen chart
+      modalChartInstance = new Chart(modalCtx, chartConfigs[id]);
+    });
+  });
+
+  // Close modal on click
+  modal.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  Object.keys(chartConfigs).forEach((chartId) => {
+    const ctx = document.getElementById(chartId);
+
+    if (ctx) {
+      new Chart(ctx, chartConfigs[chartId]);
+    }
+  });
+  </script>
+{% endblock %}

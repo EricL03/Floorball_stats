@@ -528,3 +528,40 @@ th.highlighted {
     font-size: 1rem;
   }
 }
+
+/* ---------------- Advanced stats ---------------- */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.chart-card {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.chart-card:hover {
+  transform: scale(1.02);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal canvas {
+  width: 90% !important;
+  height: 90% !important;
+  margin: 5% auto;
+  display: block;
+}
