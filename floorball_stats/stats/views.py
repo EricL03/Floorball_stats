@@ -44,7 +44,7 @@ def stats(request):
     avg_shot_percentage = sum(g.shot_percentage for g in games) / total_games
     avg_save_percentage = sum(g.save_percentage for g in games) / total_games
     avg_shot_save_percentage = sum(g.shot_save_percentage for g in games) / total_games
-    avg_powerplay_percentage = 100 * total_powerplay_goals / total_powerplays 
+    avg_powerplay_percentage = 100 * total_powerplay_goals / total_powerplays
     avg_boxplay_percentage = 100 * (1 - total_boxplay_goals_against / total_boxplays)
 
     # ---------- PLAYER STATS ----------
@@ -68,22 +68,26 @@ def stats(request):
         entry["goals"] += stat.goals
         entry["assists"] += stat.assists
         # Handle property "points"
-        entry["points"] += stat.points if hasattr(stat, "points") else (stat.goals + stat.assists)
+        entry["points"] += (
+            stat.points if hasattr(stat, "points") else (stat.goals + stat.assists)
+        )
         entry["penalties"] += stat.penalties
         entry["plus_minus"] += stat.plus_minus
 
     # Convert sets to counts
     player_stats = []
     for name, stats in player_map.items():
-        player_stats.append({
-            "player_name": name,
-            "games_played": len(stats["games_played"]),
-            "goals": stats["goals"],
-            "assists": stats["assists"],
-            "points": stats["points"],
-            "penalties": stats["penalties"],
-            "plus_minus": stats["plus_minus"],
-        })
+        player_stats.append(
+            {
+                "player_name": name,
+                "games_played": len(stats["games_played"]),
+                "goals": stats["goals"],
+                "assists": stats["assists"],
+                "points": stats["points"],
+                "penalties": stats["penalties"],
+                "plus_minus": stats["plus_minus"],
+            }
+        )
 
     player_stats.sort(key=lambda p: p["points"], reverse=True)
 

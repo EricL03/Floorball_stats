@@ -1,10 +1,11 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>Innebandy Statistik</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet"
+          href="{% static 'css/styles.css' %}" />
   </head>
   <body>
     <nav class="navbar">
@@ -13,28 +14,20 @@
           <a href="{% url 'games:list' %}">Innebandy Statistik</a>
         </div>
         <div class="nav-links">
-          <a
-            href="{% url 'games:list' %}"
-            class="nav-link {% if '/games' in request.path %}active{% endif %}"
-          >
-            Matcher
-          </a>
-          <a
-            href="{% url 'players:list' %}"
-            class="nav-link {% if '/players' in request.path %}active{% endif %}"
-          >
-            Spelare
-          </a>
-          <a
-            href="{% url 'stats:stats' %}"
-            class="nav-link {% if '/stats' in request.path %}active{% endif %}"
-          >
-            Statistik
-          </a>
+          <a href="{% url 'games:list' %}"
+             class="nav-link
+                    {% if '/games' in request.path %}active{% endif %}">Matcher</a>
+          <a href="{% url 'players:list' %}"
+             class="nav-link
+                    {% if '/players' in request.path %}active{% endif %}">Spelare</a>
+          <a href="{% url 'stats:stats' %}"
+             class="nav-link
+                    {% if '/stats' in request.path %}active{% endif %}">Statistik</a>
         </div>
       </div>
     </nav>
-
-    <main>{% block content %}{% endblock %}</main>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
   </body>
 </html>

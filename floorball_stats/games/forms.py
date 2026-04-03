@@ -34,18 +34,37 @@ class PlayerGameStatsForm(forms.ModelForm):
 class GameForm(forms.ModelForm):
     class Meta:
         model = Game
-        fields = ['date', 'opponent', 'our_score', 'our_score_p1', 'our_score_p2', 'our_score_p3',
-                  'opponent_score', 'opponent_score_p1', 'opponent_score_p2', 'opponent_score_p3', 
-                  'our_shots', 'our_shots_p1', 'our_shots_p2', 'our_shots_p3', 'opponent_shots', 
-                  'opponent_shots_p1', 'opponent_shots_p2', 'opponent_shots_p3', 'powerplays', 
-                  'powerplay_goals', 'boxplays', 'boxplay_goals_against']
+        fields = [
+            "date",
+            "opponent",
+            "our_score",
+            "our_score_p1",
+            "our_score_p2",
+            "our_score_p3",
+            "opponent_score",
+            "opponent_score_p1",
+            "opponent_score_p2",
+            "opponent_score_p3",
+            "our_shots",
+            "our_shots_p1",
+            "our_shots_p2",
+            "our_shots_p3",
+            "opponent_shots",
+            "opponent_shots_p1",
+            "opponent_shots_p2",
+            "opponent_shots_p3",
+            "powerplays",
+            "powerplay_goals",
+            "boxplays",
+            "boxplay_goals_against",
+        ]
 
 
 PlayerGameStatsFormSet = forms.inlineformset_factory(
     Game,
     PlayerGameStats,
     form=PlayerGameStatsForm,
-    fields=['player', 'goals', 'assists', 'points', 'penalties', 'plus_minus'],
+    fields=["player", "goals", "assists", "points", "penalties", "plus_minus"],
     extra=0,
-    can_delete=True
+    can_delete=True,
 )

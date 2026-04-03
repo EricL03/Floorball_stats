@@ -1,210 +1,211 @@
-{% extends "base.html" %} {% load static %} {% block content %}
-<div class="game-detail-container">
-  <h1 class="page-title">Match mot {{ game.opponent }}</h1>
-
-  <form method="POST" class="game-form">
-    {% csrf_token %} {{ formset.management_form }}
-    <section
-      class="section-card collapsible"
-      data-section="matchinfo"
-      data-default-collapsed="{% if not from_add_view %}true{% else %}false{% endif %}"
-    >
-      <h2>Matchinformation</h2>
-      <div class="form-grid">
-        {% for field in form %}
-        <div class="form-field">
-          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-          {% if field.name == "date" %}
-          <input
-            type="date"
-            name="{{ field.name }}"
-            id="{{ field.id_for_label }}"
-            value="{{ field.value|default:today|date:'Y-m-d' }}"
-            required
-          />
-          {% else %} {{ field }} {% endif %}
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <div class="game-detail-container">
+    <h1 class="page-title">Match mot {{ game.opponent }}</h1>
+    <form method="POST"
+          class="game-form">
+      {% csrf_token %} {{ formset.management_form }}
+      <section class="section-card collapsible"
+               data-section="matchinfo"
+               data-default-collapsed="{% if not from_add_view %}
+                                         true
+                                       {% else %}
+                                         false
+                                       {% endif %}">
+        <h2>Matchinformation</h2>
+        <div class="form-grid">
+          {% for field in form %}
+            <div class="form-field">
+              <label for="{{ field.id_for_label }}">
+                {{ field.label }}
+              </label>
+              {% if field.name == "date" %}
+                <input type="date"
+                       name="{{ field.name }}"
+                       id="{{ field.id_for_label }}"
+                       value="{{ field.value|default:today|date:'Y-m-d' }}"
+                       required />
+              {% else %}
+                {{ field }}
+              {% endif %}
+            </div>
+          {% endfor %}
         </div>
-        {% endfor %}
-      </div>
-    </section>
-
-    <section class="section-card collapsible" data-section="matchsummary">
-      <h2>Matchsammanställning</h2>
-      <div class="game-summary">
-        <!-- Teams -->
-        <div class="summary-block">
-          <div class="summary-main">Söderköpings IBK - {{ game.opponent }}</div>
-        </div>
-
-        <!-- Score -->
-        <div class="summary-block">
-          <div class="summary-main">
-            {{ form.our_score.value }} - {{ form.opponent_score.value }}
+      </section>
+      <section class="section-card collapsible"
+               data-section="matchsummary">
+        <h2>Matchsammanställning</h2>
+        <div class="game-summary">
+          <!-- Teams -->
+          <div class="summary-block">
+            <div class="summary-main">
+              Söderköpings IBK - {{ game.opponent }}
+            </div>
           </div>
-          <div class="summary-sub">
-            <!-- prettier-ignore -->
-            (P1: {{ form.our_score_p1.value }}-{{ form.opponent_score_p1.value }}, P2: {{ form.our_score_p2.value }}-{{ form.opponent_score_p2.value }}, P3: {{ form.our_score_p3.value }}-{{ form.opponent_score_p3.value }})
+          <!-- Score -->
+          <div class="summary-block">
+            <div class="summary-main">
+              {{ form.our_score.value }} - {{ form.opponent_score.value }}
+            </div>
+            <div class="summary-sub">
+              (P1: {{ form.our_score_p1.value }}-{{ form.opponent_score_p1.value }}, P2: {{ form.our_score_p2.value }}-{{ form.opponent_score_p2.value }}, P3: {{ form.our_score_p3.value }}-{{ form.opponent_score_p3.value }})
+            </div>
           </div>
-        </div>
-
-        <!-- Shots -->
-        <div class="summary-block">
-          <div class="summary-title">Skott</div>
-          <div class="summary-main">
-            {{ form.our_shots.value }} - {{ form.opponent_shots.value }}
+          <!-- Shots -->
+          <div class="summary-block">
+            <div class="summary-title">Skott</div>
+            <div class="summary-main">
+              {{ form.our_shots.value }} - {{ form.opponent_shots.value }}
+            </div>
+            <div class="summary-sub">
+              (P1: {{ form.our_shots_p1.value }}-{{ form.opponent_shots_p1.value }}, P2: {{ form.our_shots_p2.value }}-{{ form.opponent_shots_p2.value }}, P3: {{ form.our_shots_p3.value }}-{{ form.opponent_shots_p3.value }})
+            </div>
           </div>
-          <div class="summary-sub">
-            <!-- prettier-ignore -->
-            (P1: {{ form.our_shots_p1.value }}-{{ form.opponent_shots_p1.value }}, P2: {{ form.our_shots_p2.value }}-{{ form.opponent_shots_p2.value }}, P3: {{ form.our_shots_p3.value }}-{{ form.opponent_shots_p3.value }})
+          <!-- Other metrics -->
+          <div class="summary-metrics">
+            <!-- Shotpercentages -->
+            <div class="metric-box">
+              <label>Skottprocent</label>
+              {{ game.shot_percentage }}
+            </div>
+            <div class="metric-box">
+              <label>Räddningsprocent</label>
+              {{ game.save_percentage }}
+            </div>
+            <div class="metric-box">
+              <label>Skottprocent / Räddningsprocent</label>
+              {{ game.shot_save_percentage }}
+            </div>
           </div>
-        </div>
-
-        <!-- Other metrics -->
-        <div class="summary-metrics">
-          <!-- Shotpercentages -->
-          <div class="metric-box">
-            <label>Skottprocent</label>
-            {{ game.shot_percentage }}
+          <div class="summary-metrics">
+            <!-- Powerplays -->
+            <div class="metric-box">
+              <label>Antal Powerplay</label>
+              {{ game.powerplays }}
+            </div>
+            <div class="metric-box">
+              <label>Mål i Powerplay</label>
+              {{ game.powerplay_goals }}
+            </div>
+            <div class="metric-box">
+              <label>Mål % Powerplay</label>
+              {{ game.powerplay_percentage }}
+            </div>
           </div>
-          <div class="metric-box">
-            <label>Räddningsprocent</label>
-            {{ game.save_percentage }}
-          </div>
-          <div class="metric-box">
-            <label>Skottprocent / Räddningsprocent</label>
-            {{ game.shot_save_percentage }}
-          </div>
-        </div>
-
-        <div class="summary-metrics">
-          <!-- Powerplays -->
-          <div class="metric-box">
-            <label>Antal Powerplay</label>
-            {{ game.powerplays }}
-          </div>
-          <div class="metric-box">
-            <label>Mål i Powerplay</label>
-            {{ game.powerplay_goals }}
-          </div>
-          <div class="metric-box">
-            <label>Mål % Powerplay</label>
-            {{ game.powerplay_percentage }}
-          </div>
-        </div>
-
-        <div class="summary-metrics">
-          <!-- Boxplays -->
-          <div class="metric-box">
-            <label>Antal Boxplay</label>
-            {{ game.boxplays }}
-          </div>
-          <div class="metric-box">
-            <label>Insläppta mål i Boxplay</label>
-            {{ game.boxplay_goals_against }}
-          </div>
-          <div class="metric-box">
-            <label>% i Boxplay</label>
-            {{ game.boxplay_percentage }}
+          <div class="summary-metrics">
+            <!-- Boxplays -->
+            <div class="metric-box">
+              <label>Antal Boxplay</label>
+              {{ game.boxplays }}
+            </div>
+            <div class="metric-box">
+              <label>Insläppta mål i Boxplay</label>
+              {{ game.boxplay_goals_against }}
+            </div>
+            <div class="metric-box">
+              <label>% i Boxplay</label>
+              {{ game.boxplay_percentage }}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section class="section-card collapsible" data-section="playerstats">
-      <h2>Spelarstatistik</h2>
-      <div class="table-scroll">
-        <table class="styled-table" id="player-stats-table">
-          <thead>
-            <tr>
-              <th class="player-cell">Spelare</th>
-              <th>
-                Mål<button type="button" class="sort-btn" data-column="goals">
-                  ⇅
-                </button>
-              </th>
-              <th>
-                Assist<button
-                  type="button"
-                  class="sort-btn"
-                  data-column="assists"
-                >
-                  ⇅
-                </button>
-              </th>
-              <th>
-                Poäng<button
-                  type="button"
-                  class="sort-btn"
-                  data-column="points"
-                >
-                  ⇅
-                </button>
-              </th>
-              <th>
-                Utvisningsm.<button
-                  type="button"
-                  class="sort-btn"
-                  data-column="penalties"
-                >
-                  ⇅
-                </button>
-              </th>
-              <th>
-                Plus/Minus<button
-                  type="button"
-                  class="sort-btn"
-                  data-column="plus_minus"
-                >
-                  ⇅
-                </button>
-              </th>
-              <th>Ta bort</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for form in formset %}
+      </section>
+      <section class="section-card collapsible"
+               data-section="playerstats">
+        <h2>Spelarstatistik</h2>
+        <div class="table-scroll">
+          <table class="styled-table"
+                 id="player-stats-table">
+            <thead>
+              <tr>
+                <th class="player-cell">Spelare</th>
+                <th>
+                  Mål
+                  <button type="button"
+                          class="sort-btn"
+                          data-column="goals">⇅</button>
+                </th>
+                <th>
+                  Assist
+                  <button type="button"
+                          class="sort-btn"
+                          data-column="assists">⇅</button>
+                </th>
+                <th>
+                  Poäng
+                  <button type="button"
+                          class="sort-btn"
+                          data-column="points">⇅</button>
+                </th>
+                <th>
+                  Utvisningsm.
+                  <button type="button"
+                          class="sort-btn"
+                          data-column="penalties">
+                    ⇅
+                  </button>
+                </th>
+                <th>
+                  Plus/Minus
+                  <button type="button"
+                          class="sort-btn"
+                          data-column="plus_minus">
+                    ⇅
+                  </button>
+                </th>
+                <th>Ta bort</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for form in formset %}
+                <tr class="form-row">
+                  {{ form.id }}
+                  <td class="player-cell">{{ form.player }}</td>
+                  <td>{{ form.goals }}</td>
+                  <td>{{ form.assists }}</td>
+                  <td>{{ form.points }}</td>
+                  <td>{{ form.penalties }}</td>
+                  <td>{{ form.plus_minus }}</td>
+                  <td class="delete-cell">{{ form.DELETE }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <!-- Hidden template for new player rows -->
+          <template id="empty-form-template">
             <tr class="form-row">
-              {{ form.id }}
-              <td class="player-cell">{{ form.player }}</td>
-              <td>{{ form.goals }}</td>
-              <td>{{ form.assists }}</td>
-              <td>{{ form.points }}</td>
-              <td>{{ form.penalties }}</td>
-              <td>{{ form.plus_minus }}</td>
-              <td class="delete-cell">{{ form.DELETE }}</td>
+              {{ formset.empty_form.id }}
+              <td class="player-cell">
+                {{ formset.empty_form.player }}
+              </td>
+              <td>{{ formset.empty_form.goals }}</td>
+              <td>{{ formset.empty_form.assists }}</td>
+              <td>{{ formset.empty_form.points }}</td>
+              <td>{{ formset.empty_form.penalties }}</td>
+              <td>{{ formset.empty_form.plus_minus }}</td>
+              <td class="delete-cell">
+                {{ formset.empty_form.DELETE }}
+              </td>
             </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-
-        <!-- Hidden template for new player rows -->
-        <template id="empty-form-template">
-          <tr class="form-row">
-            {{ formset.empty_form.id }}
-            <td class="player-cell">{{ formset.empty_form.player }}</td>
-            <td>{{ formset.empty_form.goals }}</td>
-            <td>{{ formset.empty_form.assists }}</td>
-            <td>{{ formset.empty_form.points }}</td>
-            <td>{{ formset.empty_form.penalties }}</td>
-            <td>{{ formset.empty_form.plus_minus }}</td>
-            <td class="delete-cell">{{ formset.empty_form.DELETE }}</td>
-          </tr>
-        </template>
-
-        <button type="button" class="btn btn-add" id="add-player-btn">
-          ➕ Lägg till spelare
+          </template>
+          <button type="button"
+                  class="btn btn-add"
+                  id="add-player-btn">
+            ➕ Lägg till spelare
+          </button>
+        </div>
+      </section>
+      <div class="form-actions">
+        <button type="submit"
+                class="btn btn-save">
+          Spara ändringar
         </button>
+        <a href="{% url 'games:list' %}"
+           class="btn btn-cancel">Avbryt</a>
       </div>
-    </section>
-
-    <div class="form-actions">
-      <button type="submit" class="btn btn-save">Spara ändringar</button>
-      <a href="{% url 'games:list' %}" class="btn btn-cancel">Avbryt</a>
-    </div>
-  </form>
-</div>
-
-<script>
+    </form>
+  </div>
+  <script>
   window.addEventListener("load", function () {
     const table = document.getElementById("player-stats-table");
     if (!table) return;
@@ -281,5 +282,5 @@
       totalFormsInput.value = formIndex + 1;
     });
   });
-</script>
+  </script>
 {% endblock %}

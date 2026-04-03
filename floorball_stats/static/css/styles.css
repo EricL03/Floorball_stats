@@ -227,7 +227,7 @@ select {
 }
 
 .btn-add {
-  margin-left: 0.7rem; 
+  margin-left: 0.7rem;
   background-color: #3498db; /* modern blue tone */
 }
 
@@ -300,90 +300,90 @@ th.highlighted {
 
 /* Style for the sort buttons in the table headers */
 .styled-table th .sort-btn {
-    margin-left: 6px;       /* space between the text and button */
-    padding: 2px 5px;       /* small padding inside the button */
-    font-size: 0.8rem;      /* slightly smaller button text */
-    cursor: pointer;        /* indicate clickable */
-    background-color: #f3f6fa;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  margin-left: 6px; /* space between the text and button */
+  padding: 2px 5px; /* small padding inside the button */
+  font-size: 0.8rem; /* slightly smaller button text */
+  cursor: pointer; /* indicate clickable */
+  background-color: #f3f6fa;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .styled-table th .sort-btn:hover {
-    background-color: #e1e5eb;  /* subtle hover effect */
+  background-color: #e1e5eb; /* subtle hover effect */
 }
 
 /* Game summary container */
 .game-summary {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 /* Each block (Score, Shots, etc.) */
 .summary-block {
-    background: #f8f9fa;
-    border-radius: 10px;
-    padding: 1rem 1.5rem;
-    text-align: center;
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  text-align: center;
 }
 
 /* Main text like the big score number or "Söderköpings IBK - Opponent" */
 .summary-main {
-    font-size: 2rem;
-    font-weight: 700;
-    margin: 0.3rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.3rem 0;
 }
 
 /* Per-period stats */
 .summary-sub {
-    font-size: 1rem;        /* larger for readability */
-    color: #555;
-    font-weight: 600;
+  font-size: 1rem; /* larger for readability */
+  color: #555;
+  font-weight: 600;
 }
 
 /* Section titles like "Skott" */
 .summary-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 0.3rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.3rem;
 }
 
 /* Metrics rows (Powerplay, Boxplay, etc.) */
 .summary-metrics {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 /* Individual metric boxes */
 .metric-box {
-    flex: 1;
-    min-width: 100px;       /* keeps boxes separate */
-    background: #e9ecef;
-    border-radius: 8px;
-    padding: 0.8rem;
-    text-align: center;
-    font-size: 1.1rem;      /* larger text */
-    font-weight: 600;
+  flex: 1;
+  min-width: 100px; /* keeps boxes separate */
+  background: #e9ecef;
+  border-radius: 8px;
+  padding: 0.8rem;
+  text-align: center;
+  font-size: 1.1rem; /* larger text */
+  font-weight: 600;
 }
 
 .metric-box label {
-    display: block;
-    font-size: 0.85rem;     /* larger than before */
-    margin-bottom: 0.3rem;
-    color: #333;
+  display: block;
+  font-size: 0.85rem; /* larger than before */
+  margin-bottom: 0.3rem;
+  color: #333;
 }
 
 .metric-box input {
-    width: 100%;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    padding: 0.4rem;
-    text-align: center;
-    font-size: 1rem;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 0.4rem;
+  text-align: center;
+  font-size: 1rem;
 }
 
 @media (max-width: 600px) {
@@ -471,7 +471,9 @@ th.highlighted {
   color: #2c3e50;
   font-weight: 600; /* bolder text */
   font-size: 1.05rem; /* slightly larger for readability */
-  transition: color 0.2s ease, border-bottom 0.2s ease;
+  transition:
+    color 0.2s ease,
+    border-bottom 0.2s ease;
   padding-bottom: 0.25rem;
 }
 

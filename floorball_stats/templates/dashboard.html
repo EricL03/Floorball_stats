@@ -1,15 +1,20 @@
-{% extends "base.html" %} {% block content %}
-<div class="game-detail-container text-center">
-  <h1 class="page-title">Välkommen till Innebandy Statistik</h1>
-  <p class="welcome-text">
-    Välj en sektion i menyn ovan, eller använd någon av snabblänkarna nedan för
-    att komma igång.
-  </p>
-
-  <div class="dashboard-links">
-    <a href="{% url 'games:list' %}" class="btn btn-add">Matcher</a>
-    <a href="{% url 'players:list' %}" class="btn btn-save">Spelare</a>
-    <a href="{% url 'stats:stats' %}" class="btn btn-cancel">Statistik</a>
+{% extends "base.html" %}
+{% block content %}
+  <div class="game-detail-container text-center">
+    <h1 class="page-title">
+      Välkommen till Innebandy Statistik
+    </h1>
+    <p class="welcome-text">
+      Välj en sektion i menyn ovan, eller använd någon av snabblänkarna nedan för
+      att komma igång.
+    </p>
+    <div class="dashboard-links">
+      <a href="{% url 'games:list' %}"
+         class="btn btn-add">Matcher</a>
+      <a href="{% url 'players:list' %}"
+         class="btn btn-save">Spelare</a>
+      <a href="{% url 'stats:stats' %}"
+         class="btn btn-cancel">Statistik</a>
+    </div>
   </div>
-</div>
 {% endblock %}

@@ -1,37 +1,43 @@
-{% extends "base.html" %} {% block content %}
-<div class="game-detail-container">
-  <h1 class="page-title">Spelare</h1>
-
-  <div class="form-actions" style="margin-bottom: 1.5rem">
-    <a href="{% url 'players:add' %}" class="btn btn-add">Lägg till spelare</a>
+{% extends "base.html" %}
+{% block content %}
+  <div class="game-detail-container">
+    <h1 class="page-title">Spelare</h1>
+    <div class="form-actions"
+         style="margin-bottom: 1.5rem">
+      <a href="{% url 'players:add' %}"
+         class="btn btn-add">Lägg till spelare</a>
+    </div>
+    {% if players %}
+      <div class="table-scroll">
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Namn</th>
+              <th>Position</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for player in players %}
+              <tr>
+                <td>
+                  {% if player.jersey_number %}
+                    {{ player.jersey_number }}
+                  {% else %}
+                    -
+                  {% endif %}
+                </td>
+                <td>{{ player.name }}</td>
+                <td>{{ player.position|default:"N/A" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="welcome-text">
+        Inga spelare har lagts till ännu.
+      </p>
+    {% endif %}
   </div>
-
-  {% if players %}
-  <div class="table-scroll">
-    <table class="styled-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Namn</th>
-          <th>Position</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for player in players %}
-        <tr>
-          <td>
-            {% if player.jersey_number %} {{ player.jersey_number }} {% else %}
-            - {% endif %}
-          </td>
-          <td>{{ player.name }}</td>
-          <td>{{ player.position|default:"N/A" }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  {% else %}
-  <p class="welcome-text">Inga spelare har lagts till ännu.</p>
-  {% endif %}
-</div>
 {% endblock %}

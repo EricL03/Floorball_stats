@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Player
 from .forms import PlayerForm
 
+
 def player_list(request):
     players = Player.objects.all()
     return render(request, "players/list.html", {"players": players})

@@ -1,14 +1,16 @@
-{% extends "base.html" %} {% block content %}
-<div class="game-detail-container">
-  <h1 class="page-title">Lägg till spelare</h1>
-
-  <form method="post" class="styled-form">
-    {% csrf_token %} {{ form.as_p }}
-
-    <div class="form-actions">
-      <button type="submit" class="btn btn-save">Spara</button>
-      <a href="{% url 'players:list' %}" class="btn btn-cancel">Avbryt</a>
-    </div>
-  </form>
-</div>
+{% extends "base.html" %}
+{% block content %}
+  <div class="game-detail-container">
+    <h1 class="page-title">Lägg till spelare</h1>
+    <form method="post"
+          class="styled-form">
+      {% csrf_token %} {{ form.as_p }}
+      <div class="form-actions">
+        <button type="submit"
+                class="btn btn-save">Spara</button>
+        <a href="{% url 'players:list' %}"
+           class="btn btn-cancel">Avbryt</a>
+      </div>
+    </form>
+  </div>
 {% endblock %}

@@ -12,7 +12,7 @@ class PlayerGameStats(models.Model):
     plus_minus = models.IntegerField(default=0)
 
     class Meta:
-        unique_together = ('player', 'game')  # Prevent duplicate entries
+        unique_together = ("player", "game")  # Prevent duplicate entries
 
     @property
     def points(self):

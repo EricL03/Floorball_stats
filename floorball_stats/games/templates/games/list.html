@@ -1,55 +1,52 @@
-{% extends "base.html" %} {% block content %} {% load l10n %}
-<div class="game-detail-container">
-  <h1 class="page-title">Matcher</h1>
-
-  <div class="form-actions" style="margin-bottom: 1.5rem">
-    <a href="{% url 'games:add' %}" class="btn btn-add">Lägg till ny match</a>
+{% extends "base.html" %}
+{% block content %}
+  {% load l10n %}
+  <div class="game-detail-container">
+    <h1 class="page-title">Matcher</h1>
+    <div class="form-actions"
+         style="margin-bottom: 1.5rem">
+      <a href="{% url 'games:add' %}"
+         class="btn btn-add">Lägg till ny match</a>
+    </div>
+    <div class="table-scroll">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Datum</th>
+            <th>Motståndare</th>
+            <th>Resultat</th>
+            <th>Redigera match</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for game in games %}
+            <tr class="clickable-row"
+                data-href="{% url 'games:view' game.id %}">
+              <td>
+                {% localize on %}{{ game.date|date:"j M Y" }}{% endlocalize %}
+              </td>
+              <td>{{ game.opponent }}</td>
+              <td>{{ game.our_score }} - {{ game.opponent_score }}</td>
+              <td class="delete-cell">
+                <a href="{% url 'games:detail' game.id %}"
+                   class="btn btn-save btn-sm">Redigera</a>
+                <a href="{% url 'games:delete' game.id %}"
+                   class="btn btn-cancel btn-sm"
+                   onclick="return confirm('Är du säker på att du vill ta bort den här matchen?');">
+                  Ta bort
+                </a>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4">No games recorded yet.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
-
-  <div class="table-scroll">
-    <table class="styled-table">
-      <thead>
-        <tr>
-          <th>Datum</th>
-          <th>Motståndare</th>
-          <th>Resultat</th>
-          <th>Redigera match</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for game in games %}
-        <tr class="clickable-row" data-href="{% url 'games:view' game.id %}">
-          <td>
-            {% localize on %}{{ game.date|date:"j M Y" }}{% endlocalize %}
-          </td>
-          <td>{{ game.opponent }}</td>
-          <td>{{ game.our_score }} - {{ game.opponent_score }}</td>
-          <td class="delete-cell">
-            <a
-              href="{% url 'games:detail' game.id %}"
-              class="btn btn-save btn-sm"
-              >Redigera</a
-            >
-            <a
-              href="{% url 'games:delete' game.id %}"
-              class="btn btn-cancel btn-sm"
-              onclick="return confirm('Är du säker på att du vill ta bort den här matchen?');"
-            >
-              Ta bort
-            </a>
-          </td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="4">No games recorded yet.</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<script>
+  <script>
   document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".clickable-row").forEach((row) => {
       row.addEventListener("click", (e) => {
@@ -59,9 +56,8 @@
       });
     });
   });
-</script>
-
-<style>
+  </script>
+  <style>
   .clickable-row {
     cursor: pointer;
     transition: background-color 0.2s ease;
@@ -70,5 +66,5 @@
   .clickable-row:hover {
     background-color: #f3f4f6; /* light hover highlight */
   }
-</style>
+  </style>
 {% endblock %}
