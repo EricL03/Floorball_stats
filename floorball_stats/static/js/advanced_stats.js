@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
             label: "Insläppta Mål",
             data: opprollingGoals,
             borderWidth: 4,
-            borderColor: "#1f77b4", // blue
+            borderColor: "#555555", // Black/grey
             fill: false,
             tension: 0.3,
             pointRadius: 4,
@@ -178,10 +178,20 @@ document.addEventListener("DOMContentLoaded", () => {
         labels: gameLabels,
         datasets: [
           {
-            label: "Totalt",
+            label: "Totalt insläppta",
             data: opprollingGoals,
             borderWidth: 4,
+            borderColor: "#555555", // Black/grey
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+          {
+            label: "Totalt gjorda",
+            data: rollingGoals,
+            borderWidth: 4,
             borderColor: "#1f77b4", // blue
+            borderDash: [30, 25],
             fill: false,
             tension: 0.3,
             pointRadius: 5,
