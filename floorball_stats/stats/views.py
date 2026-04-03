@@ -165,8 +165,14 @@ def advanced_stats(request):
     our_rolling_goals_p2 = []
     our_rolling_goals_p3 = []
 
+    opp_rolling_goals = []
+    opp_rolling_goals_p1 = []
+    opp_rolling_goals_p2 = []
+    opp_rolling_goals_p3 = []
+
     our_rolling_shots = []
 
+    # Decides how far back we want to look
     WINDOW = 5
 
     for i in range(len(games)):
@@ -176,6 +182,11 @@ def advanced_stats(request):
         our_avg_p1 = sum(g.our_score_p1 for g in window) / len(window)
         our_avg_p2 = sum(g.our_score_p2 for g in window) / len(window)
         our_avg_p3 = sum(g.our_score_p3 for g in window) / len(window)
+
+        opp_avg_goals = sum(g.opponent_score for g in window) / len(window)
+        opp_avg_p1 = sum(g.opponent_score_p1 for g in window) / len(window)
+        opp_avg_p2 = sum(g.opponent_score_p2 for g in window) / len(window)
+        opp_avg_p3 = sum(g.opponent_score_p3 for g in window) / len(window)
 
         shots_games = [g for g in window if g.our_shots and g.our_shots > 0]
         our_avg_shots = (
@@ -192,6 +203,11 @@ def advanced_stats(request):
         our_rolling_goals_p2.append(round(our_avg_p2, 2))
         our_rolling_goals_p3.append(round(our_avg_p3, 2))
 
+        opp_rolling_goals.append(round(opp_avg_goals, 2))
+        opp_rolling_goals_p1.append(round(opp_avg_p1, 2))
+        opp_rolling_goals_p2.append(round(opp_avg_p2, 2))
+        opp_rolling_goals_p3.append(round(opp_avg_p3, 2))
+
         our_rolling_shots.append(round(our_avg_shots, 2))
 
     context = {
@@ -201,6 +217,10 @@ def advanced_stats(request):
         "our_rolling_goals_p1": our_rolling_goals_p1,
         "our_rolling_goals_p2": our_rolling_goals_p2,
         "our_rolling_goals_p3": our_rolling_goals_p3,
+        "opp_rolling_goals": opp_rolling_goals,
+        "opp_rolling_goals_p1": opp_rolling_goals_p1,
+        "opp_rolling_goals_p2": opp_rolling_goals_p2,
+        "opp_rolling_goals_p3": opp_rolling_goals_p3,
         "our_rolling_shots": our_rolling_shots,
     }
 

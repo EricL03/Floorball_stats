@@ -42,6 +42,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const rollingGoalsP3 = JSON.parse(
     document.getElementById("our-rolling-goals-p3").textContent,
   );
+  const opprollingGoals = JSON.parse(
+    document.getElementById("opp-rolling-goals").textContent,
+  );
+  const opprollingGoalsP1 = JSON.parse(
+    document.getElementById("opp-rolling-goals-p1").textContent,
+  );
+  const opprollingGoalsP2 = JSON.parse(
+    document.getElementById("opp-rolling-goals-p2").textContent,
+  );
+  const opprollingGoalsP3 = JSON.parse(
+    document.getElementById("opp-rolling-goals-p3").textContent,
+  );
   const rollingShots = JSON.parse(
     document.getElementById("our-rolling-shots").textContent,
   );
@@ -137,6 +149,79 @@ document.addEventListener("DOMContentLoaded", () => {
         ...createTooltipCallbacks(gameDetails),
       },
     },
+
+    oppgoalsChart: {
+      type: "line",
+      data: {
+        labels: gameLabels,
+        datasets: [
+          {
+            label: "Insläppta Mål",
+            data: opprollingGoals,
+            borderWidth: 4,
+            borderColor: "#1f77b4", // blue
+            fill: false,
+            tension: 0.3,
+            pointRadius: 4,
+          },
+        ],
+      },
+
+      // For tooltip showing opponent team name
+      options: {
+        ...createTooltipCallbacks(gameDetails),
+      },
+    },
+    oppgoalsChart_full: {
+      type: "line",
+      data: {
+        labels: gameLabels,
+        datasets: [
+          {
+            label: "Totalt",
+            data: opprollingGoals,
+            borderWidth: 4,
+            borderColor: "#1f77b4", // blue
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+          {
+            label: "Period 1",
+            data: opprollingGoalsP1,
+            borderColor: "#2ca02c", // green
+            borderDash: [5, 5],
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+          {
+            label: "Period 2",
+            data: opprollingGoalsP2,
+            borderColor: "#ff7f0e", // orange
+            borderDash: [10, 5],
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+          {
+            label: "Period 3",
+            data: opprollingGoalsP3,
+            borderColor: "#d62728", // red
+            borderDash: [2, 2],
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+        ],
+      },
+
+      // For tooltip showing opponent team name
+      options: {
+        ...createTooltipCallbacks(gameDetails),
+      },
+    },
+
     shotsChart: {
       type: "line",
       data: {
@@ -164,7 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
         modalChartInstance.destroy();
       }
 
-      // Use FULL version if available
+      // Use FULL version if available for fullscreen
       const fullConfig = chartConfigs[id + "_full"] || chartConfigs[id];
 
       modalChartInstance = new Chart(modalCtx, fullConfig);

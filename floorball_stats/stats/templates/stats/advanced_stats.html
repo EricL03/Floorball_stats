@@ -6,6 +6,9 @@
       <canvas id="goalsChart"></canvas>
     </div>
     <div class="chart-card">
+      <canvas id="oppgoalsChart"></canvas>
+    </div>
+    <div class="chart-card">
       <canvas id="shotsChart"></canvas>
     </div>
     <div class="chart-card">
@@ -15,6 +18,9 @@
       <canvas id="ppChart"></canvas>
     </div>
   </div>
+  {% comment %}
+    This div is for the fullscreen effect
+  {% endcomment %}
   <div id="chartModal" class="modal">
     <canvas id="modalChart"></canvas>
   </div>
@@ -27,6 +33,10 @@
   {{ our_rolling_goals_p1|json_script:"our-rolling-goals-p1" }}
   {{ our_rolling_goals_p2|json_script:"our-rolling-goals-p2" }}
   {{ our_rolling_goals_p3|json_script:"our-rolling-goals-p3" }}
+  {{ opp_rolling_goals|json_script:"opp-rolling-goals" }}
+  {{ opp_rolling_goals_p1|json_script:"opp-rolling-goals-p1" }}
+  {{ opp_rolling_goals_p2|json_script:"opp-rolling-goals-p2" }}
+  {{ opp_rolling_goals_p3|json_script:"opp-rolling-goals-p3" }}
   {{ our_rolling_shots|json_script:"our-rolling-shots" }}
   <script src="{% static 'js/advanced_stats.js' %}"></script>
 {% endblock %}
