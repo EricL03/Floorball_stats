@@ -15,10 +15,10 @@
       <canvas id="oppshotsChart"></canvas>
     </div>
     <div class="chart-card">
-      <canvas id="saveChart"></canvas>
+      <canvas id="ppChart"></canvas>
     </div>
     <div class="chart-card">
-      <canvas id="ppChart"></canvas>
+      <canvas id="pkChart"></canvas>
     </div>
   </div>
   {% comment %}
@@ -48,5 +48,7 @@
   {{ opp_rolling_shots_p1|json_script:"opp-rolling-shots-p1" }}
   {{ opp_rolling_shots_p2|json_script:"opp-rolling-shots-p2" }}
   {{ opp_rolling_shots_p3|json_script:"opp-rolling-shots-p3" }}
+  {{ our_rolling_pp|json_script:"our-rolling-pp" }}
+  {{ our_rolling_pk|json_script:"our-rolling-pk" }}
   <script src="{% static 'js/advanced_stats.js' %}"></script>
 {% endblock %}

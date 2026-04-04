@@ -78,6 +78,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const opprollingShotsP3 = JSON.parse(
     document.getElementById("opp-rolling-shots-p3").textContent,
   );
+  const rollingPP = JSON.parse(
+    document.getElementById("our-rolling-pp").textContent,
+  );
+  const rollingPK = JSON.parse(
+    document.getElementById("our-rolling-pk").textContent,
+  );
 
   let modalChartInstance = null;
 
@@ -394,6 +400,51 @@ document.addEventListener("DOMContentLoaded", () => {
             data: opprollingShotsP3,
             borderColor: "#d62728", // red
             borderDash: [2, 2],
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+        ],
+      },
+
+      // For tooltip showing opponent team name
+      options: {
+        ...createTooltipCallbacks(gameDetails),
+      },
+    },
+
+    ppChart: {
+      type: "line",
+      data: {
+        labels: gameLabels,
+        datasets: [
+          {
+            label: "Powerplay effektivitet",
+            data: rollingPP,
+            borderWidth: 4,
+            borderColor: "#1f77b4", // blue
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+        ],
+      },
+
+      // For tooltip showing opponent team name
+      options: {
+        ...createTooltipCallbacks(gameDetails),
+      },
+    },
+    pkChart: {
+      type: "line",
+      data: {
+        labels: gameLabels,
+        datasets: [
+          {
+            label: "Boxplay effektivitet",
+            data: rollingPK,
+            borderWidth: 4,
+            borderColor: "#d62728", // red
             fill: false,
             tension: 0.3,
             pointRadius: 5,

@@ -180,6 +180,9 @@ def advanced_stats(request):
     opp_rolling_shots_p2 = []
     opp_rolling_shots_p3 = []
 
+    our_rolling_pp = []
+    our_rolling_pk = []
+
     # Decides how far back we want to look
     WINDOW = 5
 
@@ -239,6 +242,17 @@ def advanced_stats(request):
             else 0
         )
 
+        num_of_pps = 0
+        num_of_pks = 0
+        for g in window:
+            num_of_pps += g.powerplays
+            num_of_pks += g.boxplays
+
+        our_avg_pp = 100 * (sum(g.powerplay_goals for g in window) / num_of_pps)
+        our_avg_pk = 100 * (
+            1 - sum(g.boxplay_goals_against for g in window) / num_of_pks
+        )
+
         game_labels.append(f"Match {i+1}")
         game_details.append(f"Match {i+1} \n{games[i].opponent}")
 
@@ -262,6 +276,9 @@ def advanced_stats(request):
         opp_rolling_shots_p2.append(round(opp_avg_shots_p2, 2))
         opp_rolling_shots_p3.append(round(opp_avg_shots_p3, 2))
 
+        our_rolling_pp.append(round(our_avg_pp, 2))
+        our_rolling_pk.append(round(our_avg_pk, 2))
+
     context = {
         "game_labels": game_labels,
         "game_details": game_details,
@@ -281,6 +298,8 @@ def advanced_stats(request):
         "opp_rolling_shots_p1": opp_rolling_shots_p1,
         "opp_rolling_shots_p2": opp_rolling_shots_p2,
         "opp_rolling_shots_p3": opp_rolling_shots_p3,
+        "our_rolling_pp": our_rolling_pp,
+        "our_rolling_pk": our_rolling_pk,
     }
 
     return render(request, "stats/advanced_stats.html", context)
