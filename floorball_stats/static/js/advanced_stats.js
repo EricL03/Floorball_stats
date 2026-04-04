@@ -218,6 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
             data: rollingGoals,
             borderWidth: 4,
             borderColor: "#1f77b4", // blue
+            hidden: true,
             borderDash: [30, 25],
             fill: false,
             tension: 0.3,
@@ -372,6 +373,7 @@ document.addEventListener("DOMContentLoaded", () => {
             data: rollingShots,
             borderWidth: 4,
             borderColor: "#1f77b4", // blue
+            hidden: true,
             borderDash: [30, 25],
             fill: false,
             tension: 0.3,
@@ -488,9 +490,6 @@ document.addEventListener("DOMContentLoaded", () => {
       modalChartInstance = null;
     }
   }
-
-  // Close modal on click
-  modal.addEventListener("click", closeModal);
 
   // Close modal on esc key
   document.addEventListener("keydown", (event) => {
