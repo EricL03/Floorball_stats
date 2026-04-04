@@ -57,6 +57,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const rollingShots = JSON.parse(
     document.getElementById("our-rolling-shots").textContent,
   );
+  const rollingShotsP1 = JSON.parse(
+    document.getElementById("our-rolling-shots-p1").textContent,
+  );
+  const rollingShotsP2 = JSON.parse(
+    document.getElementById("our-rolling-shots-p2").textContent,
+  );
+  const rollingShotsP3 = JSON.parse(
+    document.getElementById("our-rolling-shots-p3").textContent,
+  );
+  const opprollingShots = JSON.parse(
+    document.getElementById("opp-rolling-shots").textContent,
+  );
+  const opprollingShotsP1 = JSON.parse(
+    document.getElementById("opp-rolling-shots-p1").textContent,
+  );
+  const opprollingShotsP2 = JSON.parse(
+    document.getElementById("opp-rolling-shots-p2").textContent,
+  );
+  const opprollingShotsP3 = JSON.parse(
+    document.getElementById("opp-rolling-shots-p3").textContent,
+  );
 
   let modalChartInstance = null;
 
@@ -238,10 +259,151 @@ document.addEventListener("DOMContentLoaded", () => {
         labels: gameLabels,
         datasets: [
           {
-            label: "Skott",
+            label: "Skott för",
             data: rollingShots,
+            borderWidth: 4,
+            borderColor: "#1f77b4", // blue
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
           },
         ],
+      },
+
+      // For tooltip showing opponent team name
+      options: {
+        ...createTooltipCallbacks(gameDetails),
+      },
+    },
+    shotsChart_full: {
+      type: "line",
+      data: {
+        labels: gameLabels,
+        datasets: [
+          {
+            label: "Skott för",
+            data: rollingShots,
+            borderWidth: 4,
+            borderColor: "#1f77b4", // blue
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+          {
+            label: "Period 1",
+            data: rollingShotsP1,
+            borderColor: "#2ca02c", // green
+            borderDash: [5, 5],
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+          {
+            label: "Period 2",
+            data: rollingShotsP2,
+            borderColor: "#ff7f0e", // orange
+            borderDash: [10, 5],
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+          {
+            label: "Period 3",
+            data: rollingShotsP3,
+            borderColor: "#d62728", // red
+            borderDash: [2, 2],
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+        ],
+      },
+
+      // For tooltip showing opponent team name
+      options: {
+        ...createTooltipCallbacks(gameDetails),
+      },
+    },
+
+    oppshotsChart: {
+      type: "line",
+      data: {
+        labels: gameLabels,
+        datasets: [
+          {
+            label: "Skott emot",
+            data: opprollingShots,
+            borderWidth: 4,
+            borderColor: "#555555", // Black/grey
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+        ],
+      },
+
+      // For tooltip showing opponent team name
+      options: {
+        ...createTooltipCallbacks(gameDetails),
+      },
+    },
+    oppshotsChart_full: {
+      type: "line",
+      data: {
+        labels: gameLabels,
+        datasets: [
+          {
+            label: "Skott emot",
+            data: opprollingShots,
+            borderWidth: 4,
+            borderColor: "#555555", // Black/grey
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+          {
+            label: "Skott för",
+            data: rollingShots,
+            borderWidth: 4,
+            borderColor: "#1f77b4", // blue
+            borderDash: [30, 25],
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+          {
+            label: "Period 1",
+            data: opprollingShotsP1,
+            borderColor: "#2ca02c", // green
+            borderDash: [5, 5],
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+          {
+            label: "Period 2",
+            data: opprollingShotsP2,
+            borderColor: "#ff7f0e", // orange
+            borderDash: [10, 5],
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+          {
+            label: "Period 3",
+            data: opprollingShotsP3,
+            borderColor: "#d62728", // red
+            borderDash: [2, 2],
+            fill: false,
+            tension: 0.3,
+            pointRadius: 5,
+          },
+        ],
+      },
+
+      // For tooltip showing opponent team name
+      options: {
+        ...createTooltipCallbacks(gameDetails),
       },
     },
   };

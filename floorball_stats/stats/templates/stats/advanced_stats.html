@@ -12,6 +12,9 @@
       <canvas id="shotsChart"></canvas>
     </div>
     <div class="chart-card">
+      <canvas id="oppshotsChart"></canvas>
+    </div>
+    <div class="chart-card">
       <canvas id="saveChart"></canvas>
     </div>
     <div class="chart-card">
@@ -38,5 +41,12 @@
   {{ opp_rolling_goals_p2|json_script:"opp-rolling-goals-p2" }}
   {{ opp_rolling_goals_p3|json_script:"opp-rolling-goals-p3" }}
   {{ our_rolling_shots|json_script:"our-rolling-shots" }}
+  {{ our_rolling_shots_p1|json_script:"our-rolling-shots-p1" }}
+  {{ our_rolling_shots_p2|json_script:"our-rolling-shots-p2" }}
+  {{ our_rolling_shots_p3|json_script:"our-rolling-shots-p3" }}
+  {{ opp_rolling_shots|json_script:"opp-rolling-shots" }}
+  {{ opp_rolling_shots_p1|json_script:"opp-rolling-shots-p1" }}
+  {{ opp_rolling_shots_p2|json_script:"opp-rolling-shots-p2" }}
+  {{ opp_rolling_shots_p3|json_script:"opp-rolling-shots-p3" }}
   <script src="{% static 'js/advanced_stats.js' %}"></script>
 {% endblock %}
