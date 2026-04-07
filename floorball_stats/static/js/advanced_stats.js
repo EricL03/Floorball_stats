@@ -446,7 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
             label: "Boxplay effektivitet",
             data: rollingPK,
             borderWidth: 4,
-            borderColor: "#d62728", // red
+            borderColor: "#555555", // Black/grey
             fill: false,
             tension: 0.3,
             pointRadius: 5,
